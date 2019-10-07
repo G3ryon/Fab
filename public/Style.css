@@ -1,0 +1,41 @@
+body,aside{
+font-family: "Raleway", sans-serif
+
+}
+aside {
+
+    height:100%;
+    width:20%;
+    background-color:#fff;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    font-weight:bold;
+    text-align: center;
+    border-right: solid #565656 ;
+
+}
+aside li {
+    list-style-type: none;
+    padding: 0;
+}
+article{
+    float: right;
+    padding: 20px;
+    width: 80%;
+    background-color: lightgray;
+}
+section:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+footer {
+    background-color: #777;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    width:80%;
+    float:right;
+
+}

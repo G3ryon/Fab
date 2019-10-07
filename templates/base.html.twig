@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
-    <header>
+<link rel = "stylesheet"
+      type = "text/css"
+      href = {{asset("Style.css")}} />
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<section>
+    <aside>
         <meta charset="UTF-8">
         <title>{% block title %}Fablab ECAM{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
 
-            <img src="{{asset('Images/logo.jpg')}}" >
+            <img src="{{asset('Images/logo.jpg')}}" width="50%" height="30%">
         <h1>Fablab ECAM</h1>
         <h2>Lieu pour permettre au étudiant de réaliser leurs projets.</h2>
             <li><a href="{{path('home')}}">Acceuil</a></li>
@@ -16,13 +22,18 @@
             <li><a href="{{path('contact')}}">Contact</a></li>
             <li><a href="{{path('formations')}}">Formation</a></li>
             <li><a href="{{path('impression3d')}}">Impression 3D</a></li>
-        </div>
 
-    </header>
-    <body>
-    <section>
+
+    </aside>
+    <article>
+
         {% block body %}<p>yoloooo</p>{% endblock %}
         {% block javascripts %}{% endblock %}
-    </section>
-    </body>
+
+
+    </article>
+</section>
+<footer>
+   Grosse promo sur les chicons
+</footer>
 </html>
