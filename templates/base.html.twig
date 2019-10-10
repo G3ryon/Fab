@@ -3,28 +3,33 @@
 <link rel = "stylesheet"
       type = "text/css"
       href = {{asset("Style.css")}} />
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous">
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Concert One' rel='stylesheet'>
 <section>
     <aside>
         <meta charset="UTF-8">
         <title>{% block title %}Fablab ECAM{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
 
-            <img src="{{asset('Images/logo.jpg')}}" width="50%" height="30%">
-        <h1>Fablab ECAM</h1>
-        <h2>Lieu pour permettre au étudiant de réaliser leurs projets.</h2>
-            <li><a href="{{path('home')}}">Acceuil</a></li>
-            <li><a href="{{path('activites')}}">Activités</a></li>
-            <li><a href="{{path('calendrier')}}">Calendrier</a></li>
-            <li><a href="{{path('galerie')}}">Galerie de photos</a></li>
-            <li><a href="{{path('equipe')}}">Equipe</a></li>
-            <li><a href="{{path('contact')}}">Contact</a></li>
-            <li><a href="{{path('formations')}}">Formation</a></li>
-            <li><a href="{{path('impression3d')}}">Impression 3D</a></li>
+
+        <img src="{{asset('Images/logo.jpg')}}" width="70%" height="30%">
+        <a id="titre" href="{{path('home')}}" >Fablab ECAM</a>
+        <p id="description">Lieu pour permettre aux étudiants de réaliser leurs projets.</p>
+            <li><a class="link" href="{{path('home')}}">ACCEUIL</a></li>
+            <li><a class="link" href="{{path('activites')}}">ACTIVITES</a></li>
+            <li><a class="link" href="{{path('calendrier')}}">CALENDRIER</a></li>
+            <li><a id="link" href="{{path('galerie')}}">GALERIE</a></li>
+            <li><a id="link" href="{{path('equipe')}}">EQUIPE</a></li>
+            <li><a id="link" href="{{path('contact')}}">CONTACT</a></li>
+            <li><a id="link" href="{{path('formations')}}">FORMATION</a></li>
+            <li><a id="link" href="{{path('impression3d')}}">IMPRESSION 3D</a></li>
 
 
     </aside>
+    {% block img %}<img id='imgtop' src="{{asset('Images/activites.jpg')}}">{% endblock %}
     <article>
 
         {% block body %}<p>yoloooo</p>{% endblock %}
@@ -34,6 +39,6 @@
     </article>
 </section>
 <footer>
-   Grosse promo sur les chicons
+   Ceci est un footer
 </footer>
 </html>

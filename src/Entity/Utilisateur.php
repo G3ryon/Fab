@@ -29,14 +29,11 @@ class Utilisateur
     private $Prenom;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $Matricule;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Impression3D", mappedBy="Utilisateur")
      */
     private $Utilisateur;
+
+
 
     public function __construct()
     {
@@ -72,17 +69,6 @@ class Utilisateur
         return $this;
     }
 
-    public function getMatricule(): ?int
-    {
-        return $this->Matricule;
-    }
-
-    public function setMatricule(int $Matricule): self
-    {
-        $this->Matricule = $Matricule;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Impression3D[]
@@ -114,4 +100,6 @@ class Utilisateur
 
         return $this;
     }
+
+
 }

@@ -53,6 +53,9 @@ class Impression3D
      */
     private $Calendrier;
 
+    private $date;
+    Private $Noma;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -140,5 +143,26 @@ class Impression3D
         $this->Calendrier = $Calendrier;
 
         return $this;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    public function setDate($date): void
+    {
+        $this->date = $date;
+    }
+
+
+    public function getNoma()
+    {
+        return $this->Noma;
+    }
+
+    public function setNoma($Noma): void
+    {
+        $this->Noma = $Noma;
     }
 }
