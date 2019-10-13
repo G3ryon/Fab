@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Calendrier;
 use App\Entity\Impression3D;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -35,7 +36,28 @@ class Impression3DRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @param $idcalendrier
+     * @return Impression3D[]
+     */
+    public function findAllPrint($idcalendrier): array
+    {
 
+        // automatically knows to select Products
+        // the "p" is an alias you'll use in the rest of the query
+        return $this->createQueryBuilder('prt')
+            ->select('prt')
+            ->andWhere('prt.Calendrier = '.strval($idcalendrier))
+            ->orderBy('prt.Heure', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+
+
+
+        // to get just one result:
+        // $product = $qb->setMaxResults(1)->getOneOrNullResult();
+    }
     /*
     public function findOneBySomeField($value): ?Impression3D
     {

@@ -3,12 +3,20 @@
 
 
 {% block body %}
+    <div>{{form(Day)}}</div>
 
-    <table>
-        {{ include('impression3d/jour.html.twig')}}
-    </table>
+        {% if Data %}
+        {% for infos in Data %}
+            <table>
+{{ infos.Nom }}
+            </table>
+        {% endfor %}
+        {% endif %}
 
 
-{{ form(impression3dForm) }}
+
+    <div>
+        {{include('impression3d/jour.html.twig')}}
+    </div>
 
 {% endblock %}

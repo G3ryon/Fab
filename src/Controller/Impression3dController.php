@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\Impression3DRepository;
+
 use App\Entity\Calendrier;
 use App\Entity\Utilisateur;
 use App\Entity\Impression3D;
 use App\Form\Impression3dFormType;
+use App\Form\DayType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,14 +30,31 @@ class Impression3dController extends AbstractController
      */
     public function index(Request $request)
     {
-        //Recup infos pour faire le select matricule
-        //$UsersList = [];
-        //$listUsers= $this->getMatricule();
-        //foreach($listUsers as $Utilisateurs) {
-        //    array_push($UsersList, $Utilisateurs);
-        //}
-        //Recup du get
-        //$id_User = $request->query->get('id_user');
+
+
+        //Affichage de la journée choisie
+        $Daylooking = new Calendrier();
+        $form1 = $this->createForm(DayType::Class, $Daylooking);
+        $form1->handleRequest($request);
+        if($form1->isSubmitted()){
+            $entityManager = $this->getDoctrine()->getManager();
+            $formDate = $form1->get('Date')->getData();
+            $Calid= ($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$formDate)));
+           $CalendrierID=$Calid->getId('id');
+            dump($CalendrierID);
+        }
+        else{
+            $CalendrierID=1;
+            dump('default');
+        }
+
+            $Data = $this->getDoctrine()
+                ->getRepository(Impression3D::class)
+                ->findAllPrint($CalendrierID);
+
+
+
+
 
         //Form Impression3D
         $impression3d = new Impression3D();
@@ -42,7 +62,7 @@ class Impression3dController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            dump('submitted');
+            dump('submitted2');
             $entityManager = $this->getDoctrine()->getManager();
             $formDate = $form->get('date')->getData();
             $formNoma = $form->get('Noma')->getData();
@@ -59,8 +79,21 @@ class Impression3dController extends AbstractController
         }
         //render de la page
         return $this->render('impression3d/index.html.twig', [
-            'impression3dForm' => $form->createView()
-
+            'impression3dForm' => $form->createView(),
+            'Day'=>$form1->createView(),
+            dump('yoloooooooo'),
+            'Data'=>$Data
         ]);
-    }}
+    }
 
+}
+
+//Recup infos pour faire le select matricule
+//$UsersList = [];
+//$listUsers= $this->getMatricule();
+//foreach($listUsers as $Utilisateurs) {
+//    array_push($UsersList, $Utilisateurs);
+//}
+//Recup du get
+//$id_User = $request->query->get('id_user');
+//Form Day looking

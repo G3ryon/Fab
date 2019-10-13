@@ -1,6 +1,6 @@
 body{
     margin:0;
-    font-family: "Montserrat", Arial, sans-serif;
+    font-family: "Montserrat", Arial, sans-serif !important;
     color: #3e3e3e;
 }
 a:link,a:visited{
@@ -37,7 +37,7 @@ aside li {
 #titre{
     text-decoration: none;
     font-size:42px;
-    font-family: Concert One, Arial, sans-serif;
+    font-family: Concert One, Arial, sans-serif !important;
     margin: 0;
     padding: 0;
     color: black;
