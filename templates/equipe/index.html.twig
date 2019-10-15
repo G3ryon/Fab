@@ -5,13 +5,21 @@
 {% block body %}
 
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/dtheo/Fab/src/Controller/EquipeController.php'|file_link(0) }}">src/Controller/EquipeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/dtheo/Fab/templates/equipe/index.html.twig'|file_link(0) }}">templates/equipe/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <h1 id="titre">Equipe</h1>
+    <div >
+        <ul>
+            <li><h1><img src="{{asset('Images/Elise.jpg')}}" width="20%" height="20%"></h1>
+                <h2>Presidente du Fablab : Elise Raxhon</h2>
+            </li>
+            <li><h1><img src="{{asset('Images/Julien.jpg')}}" width="20%" height="20%"></h1>
+                <h2>Comptable : Julien Stilmant</h2>
+            </li>
+            <li><h1><img src="{{asset('Images/Oscar.jpg')}}" width="20%" height="20%"></h1>
+                <h2>Responsable electronique : Oscar Marafko</h2>
+            </li>
+            <li><h1><img src="{{asset('Images/Theo.jpg')}}" width="20%" height="20%"></h1>
+                <h2>Responsable 3D : Theo Ducoulombier</h2>
+            </li>
+        </ul>
+    </div>
 {% endblock %}

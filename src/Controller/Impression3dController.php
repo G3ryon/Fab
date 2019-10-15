@@ -31,26 +31,28 @@ class Impression3dController extends AbstractController
     public function index(Request $request)
     {
 
+        $Sub=1;
 
         //Affichage de la journée choisie
         $Daylooking = new Calendrier();
         $form1 = $this->createForm(DayType::Class, $Daylooking);
         $form1->handleRequest($request);
+        $formDate = $form1->get('Date')->getData();
         if($form1->isSubmitted()){
             $entityManager = $this->getDoctrine()->getManager();
             $formDate = $form1->get('Date')->getData();
             $Calid= ($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$formDate)));
-           $CalendrierID=$Calid->getId('id');
-            dump($CalendrierID);
-        }
-        else{
-            $CalendrierID=1;
-            dump('default');
-        }
-
+            $CalendrierID=$Calid->getId('id');
+            $Sub=0;
             $Data = $this->getDoctrine()
                 ->getRepository(Impression3D::class)
                 ->findAllPrint($CalendrierID);
+
+
+        }
+
+
+
 
 
 
@@ -78,12 +80,27 @@ class Impression3dController extends AbstractController
             return $this->redirectToRoute('impression3d');
         }
         //render de la page
-        return $this->render('impression3d/index.html.twig', [
+        if ($formDate != null)
+        {return $this->render('impression3d/index.html.twig', [
             'impression3dForm' => $form->createView(),
             'Day'=>$form1->createView(),
             dump('yoloooooooo'),
-            'Data'=>$Data
-        ]);
+            'Data'=>$Data,
+            'forma'=>date_format($formDate,'d/M/y'),
+            'Sub'=>$Sub
+
+
+        ]);}
+        else
+        {return $this->render('impression3d/index.html.twig', [
+                'impression3dForm' => $form->createView(),
+                'Day'=>$form1->createView(),
+                dump('yoloooooooo'),
+                'Sub'=>$Sub
+
+
+            ]);
+        }
     }
 
 }

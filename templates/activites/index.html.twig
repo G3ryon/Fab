@@ -1,18 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ActivitesController!{% endblock %}
 
 {% block body %}
 
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1 id="titre">Differents articles sur nos activités</h1>
 
-    This friendly message is coming from:
     <ul>
-        
-        <li>Your controller at <code><a href="{{ 'C:/Users/dtheo/Fab/src/Controller/ActivitesController.php'|file_link(0) }}">src/Controller/ActivitesController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/dtheo/Fab/templates/activites/index.html.twig'|file_link(0) }}">templates/activites/index.html.twig</a></code></li>
+
+        <li><h3>Montage de l'imprimante <code><a href="{{ path('activites') }}">Voir</a></code></h3>
+            <p>Montage de notre Imprimantes Prusa mk3S</p>
+        </li>
+        <li><h3>Formations impression 3D <code><a href="{{ path('activites')}}">Voir</a></code></h3>
+            <p>Formation avec un module fusion 360 et pratique</p>
+
+        </li>
     </ul>
 </div>
 {% endblock %}

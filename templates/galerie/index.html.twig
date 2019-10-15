@@ -1,17 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello GalerieController!{% endblock %}
 
 {% block body %}
 
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
+<h1 id="titre">Galerie</h1>
+<div >
     <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/dtheo/Fab/src/Controller/GalerieController.php'|file_link(0) }}">src/Controller/GalerieController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/dtheo/Fab/templates/galerie/index.html.twig'|file_link(0) }}">templates/galerie/index.html.twig</a></code></li>
+        <img src="{{asset('Images/Galerie/1.jpg')}}" width="20%" height="20%">
+        <img src="{{asset('Images/Galerie/2.jpg')}}" width="20%" height="20%">
     </ul>
 </div>
 {% endblock %}

@@ -5,15 +5,32 @@
 {% block body %}
     <div>{{form(Day)}}</div>
 
-        {% if Data %}
+    {% if Sub == 0 %}
+        <h1>{{forma}}</h1>
+    <table>
+    <tr>
+        <th>Matricule</th>
+        <th>Nom du print</th>
+        <th>Matière</th>
+        <th>Temps d'impression</th>
+        <th>Prix</th>
+        <th>Heure de lancement</th>
+    </tr>
+
         {% for infos in Data %}
-            <table>
-{{ infos.Nom }}
-            </table>
+        <tr>
+        <td>{{ infos.Utilisateur }}</td>
+        <td>{{ infos.Nom }}</td>
+            <td>{{ infos.Matiere }}</td>
+            <td>{{ infos.Temps }}</td>
+            <td>{{ infos.Prix }}</td>
+            <td>{{ infos.Heure }}</td>
+        </tr>
+
         {% endfor %}
-        {% endif %}
 
-
+    </table>
+    {% endif %}
 
     <div>
         {{include('impression3d/jour.html.twig')}}
