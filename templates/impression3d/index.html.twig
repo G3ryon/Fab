@@ -3,6 +3,7 @@
 
 
 {% block body %}
+
     <div>{{form(Day)}}</div>
 
     {% if Sub == 0 %}
@@ -15,6 +16,7 @@
         <th>Temps d'impression</th>
         <th>Prix</th>
         <th>Heure de lancement</th>
+        <th>Fichier</th>
     </tr>
 
         {% for infos in Data %}
@@ -25,6 +27,7 @@
             <td>{{ infos.Temps }}</td>
             <td>{{ infos.Prix }}</td>
             <td>{{ infos.Heure }}</td>
+            <td><a href="{{ path('ddl',{ddl:infos.PrintFilename }) }}"> {{ infos.PrintFilename }}</a></td>
         </tr>
 
         {% endfor %}
@@ -33,7 +36,7 @@
     {% endif %}
 
     <div>
-        {{include('impression3d/jour.html.twig')}}
+        {{ form(impression3dForm) }}
     </div>
 
 {% endblock %}

@@ -53,6 +53,22 @@ class Impression3D
      */
     private $Calendrier;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $PrintFilename;
+
+    public function getPrintFilename()
+    {
+        return $this->PrintFilename;
+    }
+
+    public function setPrintFilename($PrintFilename)
+    {
+        $this->PrintFilename = $PrintFilename;
+
+        return $this;
+    }
     private $date;
     Private $Noma;
 

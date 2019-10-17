@@ -8,10 +8,16 @@ use App\Entity\Utilisateur;
 use App\Entity\Impression3D;
 use App\Form\Impression3dFormType;
 use App\Form\DayType;
+use phpDocumentor\Reflection\Types\String_;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\MimeType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Impression3dController extends AbstractController
 {
@@ -52,26 +58,38 @@ class Impression3dController extends AbstractController
         }
 
 
-
-
-
-
-
-
         //Form Impression3D
         $impression3d = new Impression3D();
         $form = $this->createForm(Impression3dFormType::Class, $impression3d);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            dump('submitted2');
             $entityManager = $this->getDoctrine()->getManager();
             $formDate = $form->get('date')->getData();
             $formNoma = $form->get('Noma')->getData();
+            $PrintFile = $form['PrintFile']->getData();
+
+            //gestion du upload
+            $originalFilename = pathinfo($PrintFile->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$PrintFile->guessExtension();
+            try {
+                $PrintFile->move(
+                    'Gcode_directory',
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+
+            $impression3d->setPrintFilename($newFilename);
+
             //Id calendrier et Id Utilisateurs pour la Création d'un Impression3D
             $Calendrier =  $entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$formDate));
             $Utilisateur =  $entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$formNoma));
-            //Get l'id et la met dansle form
+
+            //Get l'id et la met dans le form
             $impression3d->setCalendrier($Calendrier);
             $impression3d->setUtilisateur($Utilisateur);
 
@@ -79,12 +97,13 @@ class Impression3dController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('impression3d');
         }
+
+
         //render de la page
         if ($formDate != null)
         {return $this->render('impression3d/index.html.twig', [
             'impression3dForm' => $form->createView(),
             'Day'=>$form1->createView(),
-            dump('yoloooooooo'),
             'Data'=>$Data,
             'forma'=>date_format($formDate,'d/M/y'),
             'Sub'=>$Sub
@@ -95,22 +114,32 @@ class Impression3dController extends AbstractController
         {return $this->render('impression3d/index.html.twig', [
                 'impression3dForm' => $form->createView(),
                 'Day'=>$form1->createView(),
-                dump('yoloooooooo'),
                 'Sub'=>$Sub
+
 
 
             ]);
         }
     }
 
+
+    /**
+     * @Route("/Download/{ddl}", name="ddl")
+     *
+     */
+    public function fileAction(string $ddl)
+    {
+        $path = 'Gcode_directory/'.$ddl ;
+        // load the file from the filesystem
+        $file = new File($path);
+
+        return $this->file($file);
+
+    }
+
+
+
+
+
 }
 
-//Recup infos pour faire le select matricule
-//$UsersList = [];
-//$listUsers= $this->getMatricule();
-//foreach($listUsers as $Utilisateurs) {
-//    array_push($UsersList, $Utilisateurs);
-//}
-//Recup du get
-//$id_User = $request->query->get('id_user');
-//Form Day looking
