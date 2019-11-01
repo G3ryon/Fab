@@ -31,6 +31,11 @@
     </aside>
     {% block img %}<img id='imgtop' src="{{asset('Images/activites.jpg')}}">{% endblock %}
     <article>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
 
         {% block body %}<p>yoloooo</p>{% endblock %}
         {% block javascripts %}{% endblock %}
