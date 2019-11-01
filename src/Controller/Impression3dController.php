@@ -36,12 +36,14 @@ class Impression3dController extends AbstractController
      */
     public function index(Request $request)
     {
+
         $Sub=1;
+
         //Affichage de la journée choisie
         $Daylooking = new Calendrier();
         $form1 = $this->createForm(DayType::Class, $Daylooking);
         $form1->handleRequest($request);
-
+        $formDate = $form1->get('Date')->getData();
         if($form1->isSubmitted()){
             $entityManager = $this->getDoctrine()->getManager();
             $formDate = $form1->get('Date')->getData();
@@ -51,6 +53,8 @@ class Impression3dController extends AbstractController
             $Data = $this->getDoctrine()
                 ->getRepository(Impression3D::class)
                 ->findAllPrint($CalendrierID);
+
+
         }
 
 
@@ -59,10 +63,7 @@ class Impression3dController extends AbstractController
         $form = $this->createForm(Impression3dFormType::Class, $impression3d);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if(true){
-               $this->HourFree($request);
-            }
-            else{
+
             $entityManager = $this->getDoctrine()->getManager();
             $formDate = $form->get('date')->getData();
             $formNoma = $form->get('Noma')->getData();
@@ -81,6 +82,7 @@ class Impression3dController extends AbstractController
             } catch (FileException $e) {
                 // ... handle exception if something happens during file upload
             }
+
             $impression3d->setPrintFilename($newFilename);
 
             //Id calendrier et Id Utilisateurs pour la Création d'un Impression3D
@@ -93,9 +95,8 @@ class Impression3dController extends AbstractController
 
             $entityManager->persist($impression3d);
             $entityManager->flush();
-            $this->addFlash('success','Impression ajoutée au calendrier');
             return $this->redirectToRoute('impression3d');
-        }}
+        }
 
 
         //render de la page
@@ -107,12 +108,16 @@ class Impression3dController extends AbstractController
             'forma'=>date_format($formDate,'d/M/y'),
             'Sub'=>$Sub
 
+
         ]);}
         else
         {return $this->render('impression3d/index.html.twig', [
                 'impression3dForm' => $form->createView(),
                 'Day'=>$form1->createView(),
                 'Sub'=>$Sub
+
+
+
             ]);
         }
     }
@@ -129,32 +134,10 @@ class Impression3dController extends AbstractController
         $file = new File($path);
 
         return $this->file($file);
-    }
-
-    public function HourFree(Request $request)
-    {
-        $impression3d = new Impression3D();
-        $entityManager = $this->getDoctrine()->getManager();
-        $form = $this->createForm(Impression3dFormType::Class, $impression3d);
-        $form->handleRequest($request);
-        $formDate = $form->get('date')->getData();
-        $Calid= ($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$formDate)));
-
-        $CalendrierID=$Calid->getId('id');
-        $HeureImp = $form ->get('Heure')->getData();
-        $TempsImp = $form ->get('Temps')->getData();
-
-
-        $Data = $this->getDoctrine()
-            ->getRepository(Impression3D::class)
-            ->findAllPrint($CalendrierID);
-
-        foreach($Data as $infos){
-
-            $this->addFlash('success',$infos);
-        }
 
     }
+
+
 
 
 
