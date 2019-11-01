@@ -9,6 +9,7 @@ use App\Entity\Impression3D;
 use App\Form\Impression3dFormType;
 use App\Form\DayType;
 use phpDocumentor\Reflection\Types\String_;
+use PhpParser\Node\Stmt\Foreach_;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\MimeType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -36,7 +37,6 @@ class Impression3dController extends AbstractController
      */
     public function index(Request $request)
     {
-
         $Sub=1;
 
         //Affichage de la journée choisie
@@ -54,7 +54,6 @@ class Impression3dController extends AbstractController
                 ->getRepository(Impression3D::class)
                 ->findAllPrint($CalendrierID);
 
-
         }
 
 
@@ -63,6 +62,23 @@ class Impression3dController extends AbstractController
         $form = $this->createForm(Impression3dFormType::Class, $impression3d);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $Date = $form->get('date')->getData();
+            $heure = $form->get('Heure')->getData();
+            $IdCalendrier= ($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$Date)));
+            $CalendrierID=$IdCalendrier->getId('id');
+
+
+            $Data2 = $this->getDoctrine()
+                ->getRepository(Impression3D::class)
+                ->findAllHeure($CalendrierID,$heure);
+
+            dump($Data2,$heure,$CalendrierID);
+
+
+            if($Data2 == [])
+            {
 
             $entityManager = $this->getDoctrine()->getManager();
             $formDate = $form->get('date')->getData();
@@ -95,7 +111,13 @@ class Impression3dController extends AbstractController
 
             $entityManager->persist($impression3d);
             $entityManager->flush();
+            $this->addFlash('success',"L'impression a bien été ajouté au calendrier");
             return $this->redirectToRoute('impression3d');
+        }
+            else
+                {
+                $this->addFlash('warning','Il y a déjà une impression à cette heure là');
+                }
         }
 
 
@@ -136,6 +158,8 @@ class Impression3dController extends AbstractController
         return $this->file($file);
 
     }
+
+
 
 
 

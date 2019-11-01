@@ -2,7 +2,8 @@
 
 
 namespace App\Form;
-
+use Doctrine\DBAL\Types\FloatType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\String_;
@@ -25,9 +26,25 @@ class Impression3dFormType extends AbstractType
             ->add('date',DateType::class)
             ->add('Nom',TextType::class,['attr'=>['label'=>"Nom du print"]])
             ->add('Temps',IntegerType::class)
-            ->add('Matiere',TextType::class)
+            ->add('Matiere',ChoiceType::class,[
+                'choices' =>[
+                    'PLA'=> 'PLA',
+                    'PETG'=> 'PETG',
+                    'ABS'=> 'ABS',
+                    'FLEX'=> 'FLEX'
+                ]
+            ])
             ->add('Prix',IntegerType::class)
-            ->add('Heure',IntegerType::class)
+            ->add('Heure',ChoiceType::class,[
+                'choices' =>[
+                    '8h'=> 8,
+                    '10h'=> 10,
+                    '12h'=> 12,
+                    '14h'=> 14,
+                    '16h' =>16,
+                    '18h'=>18,
+
+                ]])
             ->add('PrintFile', FileType::class, [
                 'label' => 'Gcode File',
 

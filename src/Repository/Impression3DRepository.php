@@ -58,6 +58,28 @@ class Impression3DRepository extends ServiceEntityRepository
         // to get just one result:
         // $product = $qb->setMaxResults(1)->getOneOrNullResult();
     }
+    /**
+     * @param $idcalendrier,$heure
+     * @return Impression3D[]
+     */
+    public function findAllHeure($idcalendrier,$heure): array
+    {
+
+        // automatically knows to select Products
+        // the "p" is an alias you'll use in the rest of the query
+        return $this->createQueryBuilder('prt')
+            ->select('prt')
+            ->andWhere('prt.Calendrier = '.strval($idcalendrier))
+            ->andWhere('prt.Heure ='.strval($heure))
+            ->getQuery()
+            ->getResult();
+
+
+
+
+        // to get just one result:
+        // $product = $qb->setMaxResults(1)->getOneOrNullResult();
+    }
     /*
     public function findOneBySomeField($value): ?Impression3D
     {
