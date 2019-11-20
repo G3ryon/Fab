@@ -1,0 +1,30 @@
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Concert One' rel='stylesheet'>
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened="true" disableClose="true" >
+
+    <img id="logo" src="../../../assets/Images/logo.jpg">
+    <a id="titre" routerLink="" >Fablab ECAM</a>
+    <p id="description">Lieu pour permettre aux étudiants de réaliser leurs projets.</p>
+    <ul>
+      <li class="active"><a routerLink="">Acceuil</a></li>
+      <li class="active"><a routerLink="Galerie">Galerie</a></li>
+      <li class="active"><a routerLink="Impression3D">Impression 3D</a></li>
+      <li class="active"><a routerLink="Activites">Activites</a></li>
+      <li class="active"><a routerLink="Calendrier">Calendrier</a></li>
+      <li class="active"><a routerLink="Contact">Contact</a></li>
+      <li class="active"><a routerLink="Equipe">Equipe</a></li>
+      <li class="active"><a routerLink="Formations">Formations</a></li>
+    </ul>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <header><img src="../../../assets/Images/activites.jpg"></header>
+    <div id="fullH">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MyComponentComponent } from './my-component/my-component.component';
 import { Impression3DComponent } from './impression3-d/impression3-d.component';
 import { AuthComponent } from './auth/auth.component';
 import { Routes,RouterModule } from '@angular/router';
@@ -14,6 +13,11 @@ import { EquipeComponent } from './equipe/equipe.component';
 import { ContactComponent } from './contact/contact.component';
 import { CalendrierComponent } from './calendrier/calendrier.component';
 import { ActivitesComponent } from './activites/activites.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import { FooterComponent } from './components/footer/footer.component';
+import { SideNavbarComponent } from './components/side-navbar/side-navbar.component';
+import { HeaderComponent } from './components/header/header.component';
 
 const appRoutes: Routes = [
   {path: 'Impression3D', component: Impression3DComponent},
@@ -28,7 +32,6 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    MyComponentComponent,
     Impression3DComponent,
     AuthComponent,
     GalerieComponent,
@@ -37,12 +40,17 @@ const appRoutes: Routes = [
     EquipeComponent,
     ContactComponent,
     CalendrierComponent,
-    ActivitesComponent
+    ActivitesComponent,
+    FooterComponent,
+    SideNavbarComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    BrowserAnimationsModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]
