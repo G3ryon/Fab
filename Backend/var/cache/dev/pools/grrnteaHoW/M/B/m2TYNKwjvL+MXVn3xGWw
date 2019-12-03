@@ -10,10 +10,16 @@ return $getExpiry ? PHP_INT_MAX : Hydrator::hydrate(
     [
         'Symfony\\Component\\Routing\\Annotation\\Route' => [
             'path' => [
-                '/impression3d',
+                '/{Date}',
             ],
             'name' => [
-                'api_impression3d',
+                'api_test',
+            ],
+            'methods' => [
+                [
+                    'GET',
+                    'HEAD',
+                ],
             ],
         ],
     ],

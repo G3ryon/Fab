@@ -41,10 +41,7 @@ return [
             [['_route' => 'api_home', '_controller' => 'App\\Controller\\API\\APIHomeController::index'], null, null, null, false, false, null],
             [['_route' => 'home', '_controller' => 'App\\Controller\\HomeController::index'], null, null, null, false, false, null],
         ],
-        '/impression3d' => [
-            [['_route' => 'api_impression3d', '_controller' => 'App\\Controller\\API\\APIImpression3dController::index'], null, null, null, false, false, null],
-            [['_route' => 'impression3d', '_controller' => 'App\\Controller\\Impression3dController::index'], null, null, null, false, false, null],
-        ],
+        '/impression3d' => [[['_route' => 'impression3d', '_controller' => 'App\\Controller\\Impression3dController::index'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
@@ -63,9 +60,11 @@ return [
                         .'|(*:159)'
                     .')'
                 .')'
-                .'|/Download/([^/]++)(?'
-                    .'|(*:190)'
+                .'|/api/D(?'
+                    .'|ate/([^/]++)(*:190)'
+                    .'|ownload/([^/]++)(*:214)'
                 .')'
+                .'|/Download/([^/]++)(*:241)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -76,8 +75,9 @@ return [
         136 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception::showAction'], ['token'], null, null, false, false, null]],
         149 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception::cssAction'], ['token'], null, null, false, false, null]],
         159 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
-        190 => [
-            [['_route' => 'api_ddl', '_controller' => 'App\\Controller\\API\\APIImpression3dController::fileAction'], ['ddl'], ['GET' => 0], null, false, true, null],
+        190 => [[['_route' => 'api_api_date', '_controller' => 'App\\Controller\\API\\APIImpression3dController::DateDisplay'], ['Date'], ['POST' => 0, 'OPTIONS' => 1, 'GET' => 3, 'HEAD' => 4], null, false, true, null]],
+        214 => [[['_route' => 'api_api_ddl', '_controller' => 'App\\Controller\\API\\APIImpression3dController::fileAction'], ['ddl'], ['POST' => 0, 'OPTIONS' => 1, 'GET' => 3], null, false, true, null]],
+        241 => [
             [['_route' => 'ddl', '_controller' => 'App\\Controller\\Impression3dController::fileAction'], ['ddl'], ['GET' => 0], null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

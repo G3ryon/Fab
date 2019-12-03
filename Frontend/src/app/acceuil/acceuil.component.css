@@ -1,0 +1,7 @@
+@import url("../components/side-navbar/side-navbar.component.css");
+h3{
+  font-size: 35px;
+}
+li{
+  list-style-type: circle;
+}

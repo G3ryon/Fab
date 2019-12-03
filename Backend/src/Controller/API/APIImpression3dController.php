@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Controller\API;
-use App\Repository\Impression3DRepository;
 
+use DateTime;
 use App\Entity\Calendrier;
 use App\Entity\Utilisateur;
 use App\Entity\Impression3D;
@@ -23,8 +23,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
-
+/**
+ *Impression3D Controller
+ *@Route("/api", name="api_", methods={"POST","OPTIONS","GET"})
+ */
 class APIImpression3dController extends AbstractController
 {
     public function getMatricule()
@@ -35,14 +39,65 @@ class APIImpression3dController extends AbstractController
         return $Utilisateurs ;
     }
 
-
     /**
-     * @Route("/impression3d", name="api_impression3d")
-     *
+     * Date displayer api
+     * @Route("/Date/{Date}", name="api_date", methods={"GET","HEAD"})
+     * @return Response
      */
-    public function index(Request $request)
+    public function DateDisplay(string $Date)
     {
-        $Sub=1;
+        $encoders = array( new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers,$encoders);
+        $em = $this->getDoctrine()->getManager();
+        $formDates = new DateTime($Date);
+        $Cal= ($em->getRepository('App:Calendrier')->findOneBy(array('Date'=>$formDates)));
+        $CalendID=$Cal->getId('id');
+        $Data = $this->getDoctrine()
+              ->getRepository(Impression3D::class)
+              ->findAllPrint($CalendID);
+        $products = $Data;
+        $jsonContent = $serializer->serialize($products,'json',
+                                             ['circular_reference_handler' => function ($object)
+                                              { return $object->getId(); }]);
+
+        $response = new JsonResponse();
+        $response->setContent($jsonContent);
+
+        return $response;}
+
+     /**
+     * FormPrint sender api
+     * @Route("/newPrint", name="api_formp", methods={"HEAD","POST"})
+     * @param Request $request
+     * @return Response
+     */
+  /* public function DateDisplay(request $request)
+    {
+        $encoders = array( new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers,$encoders);
+        $em = $this->getDoctrine()->getManager();
+        $formDates = new DateTime($Date);
+        $Cal= ($em->getRepository('App:Calendrier')->findOneBy(array('Date'=>$formDates)));
+        $CalendID=$Cal->getId('id');
+        $Data = $this->getDoctrine()
+              ->getRepository(Impression3D::class)
+              ->findAllPrint($CalendID);
+        $products = $Data;
+        $jsonContent = $serializer->serialize($products,'json',
+                                             ['circular_reference_handler' => function ($object)
+                                              { return $object->getId(); }]);
+
+        $response = new JsonResponse();
+        $response->setContent($jsonContent);
+
+        return $response;}*/
+
+
+/*        $Sub=1;
 
         //Affichage de la journée choisie
         $Daylooking = new Calendrier();
@@ -147,8 +202,8 @@ class APIImpression3dController extends AbstractController
 
 
             ]);
-        }
-    }
+        }*/
+
 
 
 

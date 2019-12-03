@@ -18,6 +18,12 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import { FooterComponent } from './components/footer/footer.component';
 import { SideNavbarComponent } from './components/side-navbar/side-navbar.component';
 import { HeaderComponent } from './components/header/header.component';
+import { MapComponent } from './components/map/map.component';
+import { AgmCoreModule } from '@agm/core';
+import { DayPrintFormComponent } from './components/day-print-form/day-print-form.component';
+import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {DateAdapter, MatNativeDateModule} from "@angular/material/core";
 
 const appRoutes: Routes = [
   {path: 'Impression3D', component: Impression3DComponent},
@@ -43,16 +49,26 @@ const appRoutes: Routes = [
     ActivitesComponent,
     FooterComponent,
     SideNavbarComponent,
-    HeaderComponent
+    HeaderComponent,
+    MapComponent,
+    DayPrintFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    BrowserModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD0JuQI2Xlse-LCqg9LDKimnTVT8t2JH7c'
+    }),
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+
   ],
-  providers: [],
+  providers: [MatDatepickerModule,MatNativeDateModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

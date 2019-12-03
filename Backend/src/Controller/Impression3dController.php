@@ -55,7 +55,10 @@ class Impression3dController extends AbstractController
             $formDate = $form1->get('Date')->getData();
             $Calid= ($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$formDate)));
             $CalendrierID=$Calid->getId('id');
-
+            /*echo("a");
+            echo($Calid);
+            echo("b");
+            echo $formDate->format('Y-m-d H:i:s');*/
             $Data = $this->getDoctrine()
                 ->getRepository(Impression3D::class)
                 ->findAllPrint($CalendrierID);
