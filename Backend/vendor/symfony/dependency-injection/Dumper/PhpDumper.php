@@ -256,7 +256,7 @@ EOF;
                 foreach ($ids as $id) {
                     $c .= '    '.$this->doExport($id)." => true,\n";
                 }
-                $files['removed-ids.php'] = $c .= "];\n";
+                $files['removed-ids.php'] = $c."];\n";
             }
 
             foreach ($this->generateServiceFiles($services) as $file => $c) {
@@ -1226,7 +1226,7 @@ EOF;
             $methodNameAlias = $this->generateMethodName($alias);
             $idExported = $this->export($id);
             $messageExported = $this->export($definition->getDeprecationMessage($alias));
-            $code = <<<EOF
+            $code .= <<<EOF
 
     /*{$this->docStar}
      * Gets the $public '$alias' alias.
@@ -1889,7 +1889,7 @@ EOF;
             if (!$value = $edge->getSourceNode()->getValue()) {
                 continue;
             }
-            if ($edge->isLazy() || !$value->isShared()) {
+            if ($edge->isLazy() || !$value instanceof Definition || !$value->isShared()) {
                 return false;
             }
             $ids[$edge->getSourceNode()->getId()] = true;

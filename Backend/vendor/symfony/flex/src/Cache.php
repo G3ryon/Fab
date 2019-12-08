@@ -74,7 +74,7 @@ class Cache extends BaseCache
 
                 if (!$this->symfonyConstraints->matches(new Constraint('==', $normalizedVersion))) {
                     if (null !== $this->io) {
-                        $this->io->writeError(sprintf('<info>Restricting packages listed in "symfony/symfony" to "%s"</info>', $this->symfonyRequire));
+                        $this->io->writeError(sprintf('<info>Restricting packages listed in "symfony/symfony" to "%s"</>', $this->symfonyRequire));
                         $this->io = null;
                     }
                     unset($versions[$version]);
@@ -117,12 +117,22 @@ class Cache extends BaseCache
 
         $versions = $this->downloader->getVersions();
         $this->downloader = null;
+        $okVersions = [];
 
         foreach ($versions['splits'] as $name => $vers) {
             foreach ($vers as $i => $v) {
-                $v = $this->versionParser->normalize($v);
+                if (!isset($okVersions[$v])) {
+                    $okVersions[$v] = false;
 
-                if (!$this->symfonyConstraints->matches(new Constraint('==', $v))) {
+                    for ($j = 0; $j < 60; ++$j) {
+                        if ($this->symfonyConstraints->matches(new Constraint('==', $v.'.'.$j.'.0'))) {
+                            $okVersions[$v] = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!$okVersions[$v]) {
                     unset($vers[$i]);
                 }
             }

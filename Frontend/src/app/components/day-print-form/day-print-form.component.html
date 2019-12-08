@@ -1,5 +1,35 @@
-<mat-form-field class="example-full-width">
-  <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" placeholder="Choose a date">
+<div>
+<mat-form-field >
+  <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" placeholder="Choose a date" (dateInput)="addEvent('input', $event)" >
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
+
+<div *ngIf="Data" >
+  <table>
+    <tr>
+      <th>Matricule</th>
+      <th>Nom du print</th>
+      <th>Matière</th>
+      <th>Temps d'impression</th>
+      <th>Prix</th>
+      <th>Heure de lancement</th>
+      <th>Fichier</th>
+    </tr>
+    <tr *ngFor="let print of Data">
+      <td>{{ print.Utilisateur["id"]}}</td>
+      <td>{{ print.Nom }}</td>
+      <td>{{ print.Matiere }}</td>
+      <td>{{ print.Temps }}</td>
+      <td>{{ print.Prix }}</td>
+      <td>{{ print.Heure }}</td>
+      <td><a href=""> {{ print.PrintFilename }}</a></td>
+    </tr>
+
+  </table>
+
+
+</div>
+
+
+</div>

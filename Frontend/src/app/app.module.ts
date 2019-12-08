@@ -24,6 +24,8 @@ import { DayPrintFormComponent } from './components/day-print-form/day-print-for
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {DateAdapter, MatNativeDateModule} from "@angular/material/core";
+import { HttpClientModule } from '@angular/common/http';
+import {MatButtonModule} from "@angular/material/button";
 
 const appRoutes: Routes = [
   {path: 'Impression3D', component: Impression3DComponent},
@@ -65,7 +67,9 @@ const appRoutes: Routes = [
     }),
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    HttpClientModule,
+    MatButtonModule
 
   ],
   providers: [MatDatepickerModule,MatNativeDateModule],

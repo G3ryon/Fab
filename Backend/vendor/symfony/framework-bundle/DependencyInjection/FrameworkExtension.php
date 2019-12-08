@@ -283,7 +283,7 @@ class FrameworkExtension extends Extension
         }
 
         if ($this->messengerConfigEnabled = $this->isConfigEnabled($container, $config['messenger'])) {
-            $this->registerMessengerConfiguration($config['messenger'], $container, $loader, $config['serializer'], $config['validation']);
+            $this->registerMessengerConfiguration($config['messenger'], $container, $loader, $config['validation']);
         } else {
             $container->removeDefinition('console.command.messenger_consume_messages');
             $container->removeDefinition('console.command.messenger_debug');
@@ -666,7 +666,7 @@ class FrameworkExtension extends Extension
                 if ('method' === $workflow['marking_store']['type']) {
                     $markingStoreDefinition->setArguments([
                         'state_machine' === $type, //single state
-                        $workflow['marking_store']['property'],
+                        $workflow['marking_store']['property'] ?? 'marking',
                     ]);
                 } else {
                     foreach ($workflow['marking_store']['arguments'] as $argument) {
@@ -997,8 +997,6 @@ class FrameworkExtension extends Extension
     {
         $loader->load('assets.xml');
 
-        $defaultVersion = null;
-
         if ($config['version_strategy']) {
             $defaultVersion = new Reference($config['version_strategy']);
         } else {
@@ -1186,11 +1184,18 @@ class FrameworkExtension extends Extension
                 $files[$locale][] = (string) $file;
             }
 
+            $projectDir = $container->getParameter('kernel.project_dir');
+
             $options = array_merge(
                 $translator->getArgument(4),
                 [
                     'resource_files' => $files,
-                    'scanned_directories' => array_merge($dirs, $nonExistingDirs),
+                    'scanned_directories' => $scannedDirectories = array_merge($dirs, $nonExistingDirs),
+                    'cache_vary' => [
+                        'scanned_directories' => array_map(static function (string $dir) use ($projectDir): string {
+                            return 0 === strpos($dir, $projectDir.'/') ? substr($dir, 1 + \strlen($projectDir)) : $dir;
+                        }, $scannedDirectories),
+                    ],
                 ]
             );
 
@@ -1634,7 +1639,7 @@ class FrameworkExtension extends Extension
         }
     }
 
-    private function registerMessengerConfiguration(array $config, ContainerBuilder $container, XmlFileLoader $loader, array $serializerConfig, array $validationConfig)
+    private function registerMessengerConfiguration(array $config, ContainerBuilder $container, XmlFileLoader $loader, array $validationConfig)
     {
         if (!interface_exists(MessageBusInterface::class)) {
             throw new LogicException('Messenger support cannot be enabled as the Messenger component is not installed. Try running "composer require symfony/messenger".');
@@ -1649,6 +1654,7 @@ class FrameworkExtension extends Extension
         $defaultMiddleware = [
             'before' => [
                 ['id' => 'add_bus_name_stamp_middleware'],
+                ['id' => 'reject_redelivered_message_middleware'],
                 ['id' => 'dispatch_after_current_bus'],
                 ['id' => 'failed_message_processing_middleware'],
             ],

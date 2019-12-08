@@ -65,7 +65,6 @@
             <argument>%doctrine.default_entity_manager%</argument>
         </service>
         <service id="Doctrine\Common\Persistence\ManagerRegistry" alias="doctrine" public="false" />
-        <service id="Symfony\Bridge\Doctrine\RegistryInterface" alias="doctrine" public="false" />
 
         <service id="doctrine.twig.doctrine_extension" class="Doctrine\Bundle\DoctrineBundle\Twig\DoctrineExtension" public="false">
             <tag name="twig.extension" />
@@ -73,6 +72,10 @@
 
         <service id="doctrine.dbal.schema_asset_filter_manager" class="Doctrine\Bundle\DoctrineBundle\Dbal\SchemaAssetsFilterManager" public="false" abstract="true">
             <!-- schema assets filters -->
+        </service>
+
+        <service id="doctrine.dbal.well_known_schema_asset_filter" class="Doctrine\Bundle\DoctrineBundle\Dbal\BlacklistSchemaAssetFilter" public="false">
+            <argument type="collection" />
         </service>
 
         <!-- commands -->
@@ -88,8 +91,8 @@
             <tag name="console.command" command="doctrine:database:drop" />
         </service>
 
-        <service id="doctrine.generate_entities_command" class="Doctrine\Bundle\DoctrineBundle\Command\GenerateEntitiesDoctrineCommand">
-            <tag name="console.command" command="doctrine:generate:entities" />
+        <service id="doctrine.database_import_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\ImportDoctrineCommand">
+            <tag name="console.command" command="doctrine:database:import" />
         </service>
 
         <service id="doctrine.query_sql_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\RunSqlDoctrineCommand">

@@ -22,7 +22,7 @@ return [
     'api_formations' => [[], ['_controller' => 'App\\Controller\\API\\APIFormationsController::index'], [], [['text', '/formations']], [], []],
     'api_galerie' => [[], ['_controller' => 'App\\Controller\\API\\APIGalerieController::index'], [], [['text', '/galerie']], [], []],
     'api_home' => [[], ['_controller' => 'App\\Controller\\API\\APIHomeController::index'], [], [['text', '/']], [], []],
-    'api_api_date' => [['Date'], ['_controller' => 'App\\Controller\\API\\APIImpression3dController::DateDisplay'], [], [['variable', '/', '[^/]++', 'Date', true], ['text', '/api/Date']], [], []],
+    'api_api_date' => [[], ['_controller' => 'App\\Controller\\API\\APIImpression3dController::DateDisplay'], [], [['text', '/api/Date']], [], []],
     'api_api_ddl' => [['ddl'], ['_controller' => 'App\\Controller\\API\\APIImpression3dController::fileAction'], [], [['variable', '/', '[^/]++', 'ddl', true], ['text', '/api/Download']], [], []],
     'activites' => [[], ['_controller' => 'App\\Controller\\ActivitesController::index'], [], [['text', '/activites']], [], []],
     'calendrier' => [[], ['_controller' => 'App\\Controller\\CalendrierController::index'], [], [['text', '/calendrier']], [], []],

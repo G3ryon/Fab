@@ -455,7 +455,11 @@ class DebugClassLoader
                 $real = self::$darwinCache[$kDir][0];
             } else {
                 $dir = getcwd();
-                chdir($real);
+
+                if (!@chdir($real)) {
+                    return $real.$file;
+                }
+
                 $real = getcwd().'/';
                 chdir($dir);
 
@@ -482,7 +486,7 @@ class DebugClassLoader
         }
 
         if (isset($dirFiles[$file])) {
-            return $real .= $dirFiles[$file];
+            return $real.$dirFiles[$file];
         }
 
         $kFile = strtolower($file);
@@ -501,7 +505,7 @@ class DebugClassLoader
             self::$darwinCache[$kDir][1] = $dirFiles;
         }
 
-        return $real .= $dirFiles[$kFile];
+        return $real.$dirFiles[$kFile];
     }
 
     /**

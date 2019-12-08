@@ -89,7 +89,7 @@ class Flex implements PluginInterface, EventSubscriberInterface
     {
         if (!\extension_loaded('openssl')) {
             self::$activated = false;
-            $io->writeError('<warning>Symfony Flex has been disabled. You must enable the openssl extension in your "php.ini" file.</warning>');
+            $io->writeError('<warning>Symfony Flex has been disabled. You must enable the openssl extension in your "php.ini" file.</>');
 
             return;
         }
@@ -268,10 +268,21 @@ class Flex implements PluginInterface, EventSubscriberInterface
         return $backtrace;
     }
 
+    public function lockPlatform()
+    {
+        if (!$this->downloader->isEnabled()) {
+            return; // "symfony/flex" not found in the root composer.json - don't create the symfony.lock file
+        }
+
+        $this->lock->set('php', [
+            'version' => $this->config->get('platform')['php'] ?? (PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION),
+        ]);
+    }
+
     public function configureProject(Event $event)
     {
         if (!$this->downloader->isEnabled()) {
-            $this->io->writeError('<warning>Project configuration is disabled: "symfony/flex" not found in the root composer.json</warning>');
+            $this->io->writeError('<warning>Project configuration is disabled: "symfony/flex" not found in the root composer.json</>');
 
             return;
         }
@@ -383,6 +394,8 @@ class Flex implements PluginInterface, EventSubscriberInterface
 
     public function install(Event $event = null)
     {
+        $this->updateAutoloadFile();
+
         $rootDir = $this->options->get('root-dir');
 
         if (!file_exists("$rootDir/.env") && !file_exists("$rootDir/.env.local") && file_exists("$rootDir/.env.dist") && false === strpos(file_get_contents("$rootDir/.env.dist"), '.env.local')) {
@@ -653,10 +666,44 @@ class Flex implements PluginInterface, EventSubscriberInterface
         $this->updateComposerLock();
     }
 
+    private function updateAutoloadFile()
+    {
+        if (!$platform = $this->lock->get('php')['version'] ?? null) {
+            return;
+        }
+
+        $autoloadFile = $this->config->get('vendor-dir').'/autoload.php';
+
+        if (!file_exists($autoloadFile)) {
+            return;
+        }
+
+        $code = file_get_contents($autoloadFile);
+        $code = substr($code, \strlen("<?php\n"));
+
+        if (false !== strpos($code, 'PHP_VERSION_ID')) {
+            return;
+        }
+
+        $platform = preg_replace('/[^-+.~_\w]/', '', $platform);
+        $version = sprintf('%d%02d00', ...explode('.', $platform.'.0'));
+
+        file_put_contents($autoloadFile, <<<EOPHP
+<?php
+
+if (\PHP_VERSION_ID < $version) {
+    echo sprintf("Fatal Error: composer.lock was created for PHP version $platform or higher but the current PHP version is %d.%d.%d.\\n", PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION);
+    exit(1);
+}
+$code
+EOPHP
+        );
+    }
+
     private function fetchRecipes(): array
     {
         if (!$this->downloader->isEnabled()) {
-            $this->io->writeError('<warning>Symfony recipes are disabled: "symfony/flex" not found in the root composer.json</warning>');
+            $this->io->writeError('<warning>Symfony recipes are disabled: "symfony/flex" not found in the root composer.json</>');
 
             return [];
         }
@@ -839,7 +886,7 @@ class Flex implements PluginInterface, EventSubscriberInterface
 
         return [
             InstallerEvents::PRE_DEPENDENCIES_SOLVING => [['populateProvidersCacheDir', PHP_INT_MAX]],
-            InstallerEvents::POST_DEPENDENCIES_SOLVING => [['populateFilesCacheDir', PHP_INT_MAX]],
+            InstallerEvents::POST_DEPENDENCIES_SOLVING => [['populateFilesCacheDir', PHP_INT_MAX], ['lockPlatform']],
             PackageEvents::PRE_PACKAGE_INSTALL => [['populateFilesCacheDir', ~PHP_INT_MAX]],
             PackageEvents::PRE_PACKAGE_UPDATE => [['populateFilesCacheDir', ~PHP_INT_MAX]],
             PackageEvents::POST_PACKAGE_INSTALL => __CLASS__ === self::class ? [['record'], ['checkForUpdate']] : 'record',

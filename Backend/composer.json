@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-intl": "*",
+        "nelmio/cors-bundle": "^1.4",
         "sensio/framework-extra-bundle": "^5.4",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.3.*",

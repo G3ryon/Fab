@@ -19,6 +19,7 @@ use Symfony\Component\Asset\Package;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpClient\HttpClient;
@@ -303,7 +304,7 @@ class Configuration implements ConfigurationInterface
                                                 ->end()
                                             ->end()
                                             ->scalarNode('property')
-                                                ->defaultValue('marking')
+                                                ->defaultNull() // In Symfony 5.0, set "marking" as default property
                                             ->end()
                                             ->scalarNode('service')
                                                 ->cannotBeEmpty()
@@ -481,6 +482,14 @@ class Configuration implements ConfigurationInterface
                                         return $v;
                                     })
                                 ->end()
+                                ->validate()
+                                    ->ifTrue(function ($v) {
+                                        return isset($v['marking_store']['property'])
+                                            && (!isset($v['marking_store']['type']) || 'method' !== $v['marking_store']['type'])
+                                        ;
+                                    })
+                                    ->thenInvalid('"property" option is only supported by the "method" marking store.')
+                                ->end()
                             ->end()
                         ->end()
                     ->end()
@@ -542,7 +551,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('cookie_domain')->end()
                         ->enumNode('cookie_secure')->values([true, false, 'auto'])->end()
                         ->booleanNode('cookie_httponly')->defaultTrue()->end()
-                        ->enumNode('cookie_samesite')->values([null, Cookie::SAMESITE_LAX, Cookie::SAMESITE_STRICT])->defaultNull()->end()
+                        ->enumNode('cookie_samesite')->values([null, Cookie::SAMESITE_LAX, Cookie::SAMESITE_STRICT, Cookie::SAMESITE_NONE])->defaultNull()->end()
                         ->booleanNode('use_cookies')->end()
                         ->scalarNode('gc_divisor')->end()
                         ->scalarNode('gc_probability')->defaultValue(1)->end()
@@ -1127,6 +1136,10 @@ class Configuration implements ConfigurationInterface
                     ->validate()
                         ->ifTrue(function ($v) { return isset($v['buses']) && \count($v['buses']) > 1 && null === $v['default_bus']; })
                         ->thenInvalid('You must specify the "default_bus" if you define more than one bus.')
+                    ->end()
+                    ->validate()
+                        ->ifTrue(static function ($v): bool { return isset($v['buses']) && null !== $v['default_bus'] && !isset($v['buses'][$v['default_bus']]); })
+                        ->then(static function (array $v): void { throw new InvalidConfigurationException(sprintf('The specified default bus "%s" is not configured. Available buses are "%s".', $v['default_bus'], implode('", "', array_keys($v['buses'])))); })
                     ->end()
                     ->children()
                         ->arrayNode('routing')

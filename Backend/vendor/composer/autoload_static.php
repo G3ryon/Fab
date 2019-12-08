@@ -109,6 +109,10 @@ class ComposerStaticInitf5f86eec2d32529d83499ca46a5884a2
             'PhpParser\\' => 10,
             'PackageVersions\\' => 16,
         ),
+        'N' => 
+        array (
+            'Nelmio\\CorsBundle\\' => 18,
+        ),
         'M' => 
         array (
             'Monolog\\' => 8,
@@ -135,7 +139,6 @@ class ComposerStaticInitf5f86eec2d32529d83499ca46a5884a2
             'Doctrine\\Common\\Annotations\\' => 28,
             'Doctrine\\Common\\' => 16,
             'Doctrine\\Bundle\\MigrationsBundle\\' => 33,
-            'Doctrine\\Bundle\\DoctrineCacheBundle\\' => 36,
             'Doctrine\\Bundle\\DoctrineBundle\\' => 31,
         ),
         'A' => 
@@ -414,7 +417,7 @@ class ComposerStaticInitf5f86eec2d32529d83499ca46a5884a2
         ),
         'Sensio\\Bundle\\FrameworkExtraBundle\\' => 
         array (
-            0 => __DIR__ . '/..' . '/sensio/framework-extra-bundle',
+            0 => __DIR__ . '/..' . '/sensio/framework-extra-bundle/src',
         ),
         'Psr\\Log\\' => 
         array (
@@ -439,6 +442,10 @@ class ComposerStaticInitf5f86eec2d32529d83499ca46a5884a2
         'PackageVersions\\' => 
         array (
             0 => __DIR__ . '/..' . '/ocramius/package-versions/src/PackageVersions',
+        ),
+        'Nelmio\\CorsBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nelmio/cors-bundle',
         ),
         'Monolog\\' => 
         array (
@@ -502,10 +509,6 @@ class ComposerStaticInitf5f86eec2d32529d83499ca46a5884a2
         'Doctrine\\Bundle\\MigrationsBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/doctrine-migrations-bundle',
-        ),
-        'Doctrine\\Bundle\\DoctrineCacheBundle\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/doctrine-cache-bundle',
         ),
         'Doctrine\\Bundle\\DoctrineBundle\\' => 
         array (

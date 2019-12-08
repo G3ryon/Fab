@@ -23,6 +23,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
 /**
@@ -41,29 +43,43 @@ class APIImpression3dController extends AbstractController
 
     /**
      * Date displayer api
-     * @Route("/Date/{Date}", name="api_date", methods={"GET","HEAD"})
+     * @Route("/Date", name="api_date", methods={"POST","HEAD"})
+     * @param Request $request
      * @return Response
      */
-    public function DateDisplay(string $Date)
+    public function DateDisplay(Request $request)
     {
-        $encoders = array( new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
+        dump($request->query->get('date'));
+        $Date = $request->query->get('date');
 
-        $serializer = new Serializer($normalizers,$encoders);
         $em = $this->getDoctrine()->getManager();
         $formDates = new DateTime($Date);
+        dump($Date);
         $Cal= ($em->getRepository('App:Calendrier')->findOneBy(array('Date'=>$formDates)));
         $CalendID=$Cal->getId('id');
         $Data = $this->getDoctrine()
               ->getRepository(Impression3D::class)
               ->findAllPrint($CalendID);
+
         $products = $Data;
-        $jsonContent = $serializer->serialize($products,'json',
-                                             ['circular_reference_handler' => function ($object)
-                                              { return $object->getId(); }]);
+        $encoders = array( new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers,$encoders);
+        $defaultContext= [
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                            return $object->getId();
+                        },
+            ObjectNormalizer::CIRCULAR_REFERENCE_LIMIT =>0,
+            AbstractNormalizer::IGNORED_ATTRIBUTES =>["utilisateur","Calendrier","date","Noma",'__cloner__','__initializer__','__isInitialized__'],
+            ObjectNormalizer::ENABLE_MAX_DEPTH => true,
+            DateTimeNormalizer::FORMAT_KEY => 'Y/m/d H:i'
+                    ];
+
+        $jsonContent = $serializer->serialize($products,'json',$defaultContext);
 
         $response = new JsonResponse();
         $response->setContent($jsonContent);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
 
         return $response;}
 

@@ -66,7 +66,7 @@ class __TwigTemplate_d88991629da0ff0d9309ecc604fcbde46ecfdac13e3681bb7b1c388aa79
 
         // line 6
         echo "
-<h1>Formations</h1>
+<h1 id=\"titre\">Formations</h1>
     <div>
 
         <ul>
@@ -106,7 +106,7 @@ class __TwigTemplate_d88991629da0ff0d9309ecc604fcbde46ecfdac13e3681bb7b1c388aa79
 
 {% block body %}
 
-<h1>Formations</h1>
+<h1 id=\"titre\">Formations</h1>
     <div>
 
         <ul>
@@ -114,6 +114,7 @@ class __TwigTemplate_d88991629da0ff0d9309ecc604fcbde46ecfdac13e3681bb7b1c388aa79
 
         </ul>
     </div>
-{% endblock %}", "formations/index.html.twig", "C:\\Users\\dtheo\\Fab\\templates\\formations\\index.html.twig");
+{% endblock %}
+", "formations/index.html.twig", "C:\\Users\\dtheo\\Fab\\Backend\\templates\\formations\\index.html.twig");
     }
 }

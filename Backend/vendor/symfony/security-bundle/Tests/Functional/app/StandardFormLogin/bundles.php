@@ -19,4 +19,5 @@ return [
     new SecurityBundle(),
     new TwigBundle(),
     new FormLoginBundle(),
+    new Nelmio\CorsBundle\NelmioCorsBundle(),
 ];
