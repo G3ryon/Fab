@@ -6,7 +6,8 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-intl": "*",
-        "nelmio/cors-bundle": "^1.4",
+        "ext-json": "*",
+        "nelmio/cors-bundle": "^2.0",
         "sensio/framework-extra-bundle": "^5.4",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.3.*",
@@ -30,8 +31,7 @@
         "symfony/twig-bundle": "4.3.*",
         "symfony/validator": "4.3.*",
         "symfony/web-link": "4.3.*",
-        "symfony/yaml": "4.3.*",
-      "ext-json": "*"
+        "symfony/yaml": "4.3.*"
     },
     "require-dev": {
         "symfony/debug-pack": "*",

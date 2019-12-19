@@ -6,7 +6,7 @@
 </mat-form-field>
 
 <div *ngIf="Data" >
-  <table>
+  <table class="displayTable">
     <tr>
       <th>Matricule</th>
       <th>Nom du print</th>
@@ -23,7 +23,7 @@
       <td>{{ print.Temps }}</td>
       <td>{{ print.Prix }}</td>
       <td>{{ print.Heure }}</td>
-      <td><a href=""> {{ print.PrintFilename }}</a></td>
+      <td> <button mat-stroked-button (click)="download(print.PrintFilename)" >Télécharger le fichier</button></td>
     </tr>
 
   </table>

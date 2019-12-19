@@ -7,53 +7,48 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Nelmio\Tests\DependencyInjection;
 
-use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use Fixtures\ProviderMock;
+use Nelmio\CorsBundle\DependencyInjection\Compiler\CorsConfigurationProviderPass;
+use Nelmio\CorsBundle\DependencyInjection\NelmioCorsExtension;
+use Nelmio\CorsBundle\Options\ConfigProvider;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Nelmio\CorsBundle\DependencyInjection\Compiler\CorsConfigurationProviderPass;
-use Symfony\Component\DependencyInjection\Reference;
 
-class CorsConfigurationProviderPassTest extends AbstractCompilerPassTestCase
+class CorsConfigurationProviderPassTest extends TestCase
 {
-    protected function registerCompilerPass(ContainerBuilder $container)
+    public function testCollectProviders(): void
     {
-        $container->addCompilerPass(new CorsConfigurationProviderPass());
+        $container = $this->getContainerBuilder();
+        $container->compile();
+
+        $arguments = $container->getDefinition('nelmio_cors.options_resolver')->getArguments();
+
+        static::assertCount(4, $arguments[0] ?? []);
+        static::assertSame(ConfigProvider::class, (string) $arguments[0][0]->getClass());
+        static::assertSame('cors.options_provider.test3', (string) $arguments[0][1]);
+        static::assertSame('cors.options_provider.test4', (string) $arguments[0][2]);
+        static::assertSame('cors.options_provider.test2', (string) $arguments[0][3]);
     }
 
-    public function testCollectProviders()
+    protected function getContainerBuilder(): ContainerBuilder
     {
-        $configurationResolver = new Definition();
-        $this->setDefinition('nelmio_cors.options_resolver', $configurationResolver);
+        $extension = new NelmioCorsExtension();
+        $container = new ContainerBuilder();
+        $optionProviders = [
+            'cors.options_provider.test1' => (new Definition(ProviderMock::class))->setPublic(true),
+            'cors.options_provider.test2' => (new Definition(ProviderMock::class))->setPublic(true)->addTag('nelmio_cors.options_provider', ['priority' => 10]),
+            'cors.options_provider.test3' => (new Definition(ProviderMock::class))->setPublic(true)->addTag('nelmio_cors.options_provider', ['priority' => 5]),
+            'cors.options_provider.test4' => (new Definition(ProviderMock::class))->setPublic(true)->addTag('nelmio_cors.options_provider', ['priority' => 5]),
+        ];
+        $container->addDefinitions($optionProviders);
+        $container->addCompilerPass(new CorsConfigurationProviderPass());
+        $extension->load([], $container);
+        $container->getDefinition('nelmio_cors.options_resolver')->setPublic(true);
 
-        $configurationProvider = new Definition();
-        $configurationProvider->addTag('nelmio_cors.options_provider');
-        $this->setDefinition('cors.options_provider.test1', $configurationProvider);
-
-        $configurationProvider = new Definition();
-        $configurationProvider->addTag('nelmio_cors.options_provider', array('priority' => 10));
-        $this->setDefinition('cors.options_provider.test2', $configurationProvider);
-
-        $configurationProvider = new Definition();
-        $configurationProvider->addTag('nelmio_cors.options_provider', array('priority' => 5));
-        $this->setDefinition('cors.options_provider.test3', $configurationProvider);
-
-        $configurationProvider = new Definition();
-        $configurationProvider->addTag('nelmio_cors.options_provider', array('priority' => 5));
-        $this->setDefinition('cors.options_provider.test4', $configurationProvider);
-
-        $this->compile();
-
-        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
-            'nelmio_cors.options_resolver',
-            0,
-            array(
-                new Reference('cors.options_provider.test1'),
-                new Reference('cors.options_provider.test3'),
-                new Reference('cors.options_provider.test4'),
-                new Reference('cors.options_provider.test2')
-            )
-        );
+        return $container;
     }
 }

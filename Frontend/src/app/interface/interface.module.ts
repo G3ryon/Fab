@@ -26,3 +26,25 @@ export interface utilisateur{
   "nom": string;
   "prenom":  string;
 }
+export class Print{
+  constructor(
+  public Noma: number,
+  public Date: string,
+  public Nom: string,
+  public Temps: string,
+  public Matiere: string,
+  public Prix: number,
+  public Heure: number,
+  public PrintFilename: string
+
+  ) {
+
+  }
+
+}
+export interface uploadfile{
+  "filename": string;
+}
+export interface PrintForm{
+  "code": number;
+}

@@ -49,12 +49,10 @@ class APIImpression3dController extends AbstractController
      */
     public function DateDisplay(Request $request)
     {
-        dump($request->query->get('date'));
         $Date = $request->query->get('date');
-
         $em = $this->getDoctrine()->getManager();
         $formDates = new DateTime($Date);
-        dump($Date);
+
         $Cal= ($em->getRepository('App:Calendrier')->findOneBy(array('Date'=>$formDates)));
         $CalendID=$Cal->getId('id');
         $Data = $this->getDoctrine()
@@ -79,168 +77,124 @@ class APIImpression3dController extends AbstractController
 
         $response = new JsonResponse();
         $response->setContent($jsonContent);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
 
         return $response;}
 
-     /**
-     * FormPrint sender api
-     * @Route("/newPrint", name="api_formp", methods={"HEAD","POST"})
-     * @param Request $request
-     * @return Response
-     */
-  /* public function DateDisplay(request $request)
-    {
-        $encoders = array( new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers,$encoders);
-        $em = $this->getDoctrine()->getManager();
-        $formDates = new DateTime($Date);
-        $Cal= ($em->getRepository('App:Calendrier')->findOneBy(array('Date'=>$formDates)));
-        $CalendID=$Cal->getId('id');
-        $Data = $this->getDoctrine()
-              ->getRepository(Impression3D::class)
-              ->findAllPrint($CalendID);
-        $products = $Data;
-        $jsonContent = $serializer->serialize($products,'json',
-                                             ['circular_reference_handler' => function ($object)
-                                              { return $object->getId(); }]);
-
-        $response = new JsonResponse();
-        $response->setContent($jsonContent);
-
-        return $response;}*/
-
-
-/*        $Sub=1;
-
-        //Affichage de la journée choisie
-        $Daylooking = new Calendrier();
-        $form1 = $this->createForm(DayType::Class, $Daylooking);
-        $form1->handleRequest($request);
-        $formDate = $form1->get('Date')->getData();
-        if($form1->isSubmitted()){
-            $Sub=0;
-            $entityManager = $this->getDoctrine()->getManager();
-            $formDate = $form1->get('Date')->getData();
-            $Calid= ($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$formDate)));
-            $CalendrierID=$Calid->getId('id');
-
-            $Data = $this->getDoctrine()
-                ->getRepository(Impression3D::class)
-                ->findAllPrint($CalendrierID);
-
-        }
-
-
-        //Form Impression3D
-        $impression3d = new Impression3D();
-        $form = $this->createForm(Impression3dFormType::Class, $impression3d);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $Date = $form->get('date')->getData();
-            $heure = $form->get('Heure')->getData();
-            $IdCalendrier= ($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$Date)));
-            $CalendrierID=$IdCalendrier->getId('id');
-
-
-            $Data2 = $this->getDoctrine()
-                ->getRepository(Impression3D::class)
-                ->findAllHeure($CalendrierID,$heure);
-
-            dump($Data2,$heure,$CalendrierID);
-
-
-            if($Data2 == [])
-            {
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $formDate = $form->get('date')->getData();
-            $formNoma = $form->get('Noma')->getData();
-            $PrintFile = $form['PrintFile']->getData();
-
-            //gestion du upload
-            $originalFilename = pathinfo($PrintFile->getClientOriginalName(), PATHINFO_FILENAME);
-            // this is needed to safely include the file name as part of the URL
-            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-            $newFilename = $safeFilename.'-'.uniqid().'.'.$PrintFile->guessExtension();
-            try {
-                $PrintFile->move(
-                    'Gcode_directory',
-                    $newFilename
-                );
-            } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
-            }
-
-            $impression3d->setPrintFilename($newFilename);
-
-            //Id calendrier et Id Utilisateurs pour la Création d'un Impression3D
-            $Calendrier =  $entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$formDate));
-            $Utilisateur =  $entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$formNoma));
-
-            //Get l'id et la met dans le form
-            $impression3d->setCalendrier($Calendrier);
-            $impression3d->setUtilisateur($Utilisateur);
-
-            $entityManager->persist($impression3d);
-            $entityManager->flush();
-            $this->addFlash('success',"L'impression a bien été ajouté au calendrier");
-            return $this->redirectToRoute('impression3d');
-        }
-            else
-                {
-                $this->addFlash('warning','Il y a déjà une impression à cette heure là');
-                }
-        }
-
-
-        //render de la page
-        if ($formDate != null)
-        {return $this->render('impression3d/index.html.twig', [
-            'impression3dForm' => $form->createView(),
-            'Day'=>$form1->createView(),
-            'Data'=>$Data,
-            'forma'=>date_format($formDate,'d/M/y'),
-            'Sub'=>$Sub
-
-
-        ]);}
-        else
-        {return $this->render('impression3d/index.html.twig', [
-                'impression3dForm' => $form->createView(),
-                'Day'=>$form1->createView(),
-                'Sub'=>$Sub
-
-
-
-            ]);
-        }*/
-
-
-
 
     /**
-     * @Route("/Download/{ddl}", name="api_ddl", methods={"GET"})
-     *
-     */
-    public function fileAction(string $ddl)
+    * @Route("/Download", name="api_ddl", methods={"POST","HEAD","GET"})
+    * @param Request $request
+    *
+    */
+    public function fileAction(Request $request)
     {
-        $path = 'Gcode_directory/'.$ddl ;
+        $Ddl = $request->query->get('ddl');
+        $path = 'Gcode_directory/'.$Ddl ;
         // load the file from the filesystem
         $file = new File($path);
 
         return $this->file($file);
+    }
+
+    public function query($qstr,$request)
+    {
+        return $request->query->get($qstr);
+    }
+
+    /**
+     * @Route("/up", name="api_upload", methods={"POST","HEAD","GET"})
+     * @param Request $request
+     *
+     *
+     */
+    public function uploadfile(Request $request)
+    {
+        $file = $request->files->get('File');
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+        $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+         try {
+                    $file->move(
+                              'Gcode_directory',
+                              $newFilename
+                        );
+                    } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                    }
+        $response = new Response();
+        $response->setContent(json_encode(['filename' => $newFilename]));
+
+          return $response;
 
     }
 
+    /**
+     * @Route("/Print", name="api_print", methods={"POST","HEAD","GET"})
+     * @param Request $request
+     *
+     * @return JsonResponse
+     * @throws \Exception
+     */
+        public function insertNewPrint(Request $request)
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            //looking if there is already a print at this time
+            $Heure = $this->query('Heure',$request);
+            $DateBrut = $this->query('Date',$request);
+            preg_match('/[0-9]{4}(-[0-9]{2}){2}/', $DateBrut, $Datereg);
+            $Date = new DateTime($Datereg[0]);
+            $Calendrier =  $entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$Date));
 
+            $Data2 = $this->getDoctrine()
+                ->getRepository(Impression3D::class)
+                ->findAllHeure($Calendrier,$Heure);
 
+            if($Data2 != []) {
+                $response = JsonResponse::fromJsonString('{ "code": 403 }');
+                return $response;
+            }
+            else
+            {
+                $Noma= $this->query('Noma',$request);
+                if((bool)$entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$Noma))){
+                    $impression3d = new Impression3D();
 
+                    $Utilisateur =  $entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$Noma));
+                    $impression3d->setUtilisateur($Utilisateur);
 
+                    //Date id
+                    $impression3d->setCalendrier($Calendrier);
+
+                    $Nom = $this->query('Nom',$request);
+                    $impression3d->setNom($Nom);
+
+                    $Temps = $this->query('Temps',$request);
+                    $impression3d->setTemps((int)$Temps);
+
+                    $Matiere = $this->query('Matiere',$request);
+                    $impression3d->setMatiere($Matiere);
+
+                    $Prix = $this->query('Prix',$request);
+                    $impression3d->setPrix($Prix);
+
+                    $impression3d->setHeure($Heure);
+
+                    $Printfile = $this->query('Printfile',$request);
+                    $impression3d->setPrintFilename($Printfile);
+
+                    $entityManager->persist($impression3d);
+                    $entityManager->flush();
+
+                    $response = JsonResponse::fromJsonString('{ "code": 200 }');
+                    return $response;
+                }
+                else{
+                    $response = JsonResponse::fromJsonString('{ "code": 401 }');
+                    return $response;
+                }
+
+            }
+        }
 
 
 }

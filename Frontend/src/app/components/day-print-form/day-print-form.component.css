@@ -1,0 +1,22 @@
+table.displayTable {
+  background-color: #FFFFFF;
+  width: 100%;
+  text-align: center;
+}
+table.displayTable td, table.displayTable th {
+  padding: 6px 10px;
+}
+table.displayTable tr:nth-child(even) {
+  background: #C3C3C3;
+}
+table.displayTable thead {
+  background: #000000;
+  border-bottom: 2px solid #444444;
+}
+table.displayTable  th {
+  font-size: 15px;
+  background: #000000;
+  font-weight: bold;
+  color: #BABABA;
+  text-align: center;
+}

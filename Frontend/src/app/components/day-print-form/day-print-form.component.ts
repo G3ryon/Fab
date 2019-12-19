@@ -14,19 +14,20 @@ import {PrintInfo,utilisateur} from '../../Interface/Interface.module';
 
 export class DayPrintFormComponent implements OnInit {
 
-  public data: JSON[]=[];
   Data : PrintInfo[];
   date: MatDatepickerInputEvent<Date>;
   events: string[] = [];
-  formatDate: string = 'yyyy-MM-dd';
-
+  ddl;
 
   myFilter = (d: Date): boolean => {
     const day = d.getDay();
     // Prevent Saturday and Sunday from being selected.
     return day !== 0 && day !== 6;
   };
+  download(ddl: string){
+    this.api.downloadGcode(ddl);
 
+  }
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
 

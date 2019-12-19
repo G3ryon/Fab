@@ -26,6 +26,9 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {DateAdapter, MatNativeDateModule} from "@angular/material/core";
 import { HttpClientModule } from '@angular/common/http';
 import {MatButtonModule} from "@angular/material/button";
+import { PrintFormComponent } from './components/print-form/print-form.component';
+import {FormsModule} from "@angular/forms";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 const appRoutes: Routes = [
   {path: 'Impression3D', component: Impression3DComponent},
@@ -53,7 +56,9 @@ const appRoutes: Routes = [
     SideNavbarComponent,
     HeaderComponent,
     MapComponent,
-    DayPrintFormComponent
+    DayPrintFormComponent,
+    PrintFormComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -62,6 +67,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatSidenavModule,
     BrowserModule,
+    NgbModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD0JuQI2Xlse-LCqg9LDKimnTVT8t2JH7c'
     }),
@@ -69,7 +75,8 @@ const appRoutes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     HttpClientModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule
 
   ],
   providers: [MatDatepickerModule,MatNativeDateModule],

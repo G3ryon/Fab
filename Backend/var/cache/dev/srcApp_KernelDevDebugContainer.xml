@@ -258,8 +258,6 @@
         <parameter>content-type</parameter>
         <parameter>authorization</parameter>
         <parameter>application/json</parameter>
-        <parameter>x-requested-with</parameter>
-        <parameter>accept</parameter>
       </parameter>
       <parameter key="expose_headers" type="collection">
         <parameter>Link</parameter>
@@ -2096,6 +2094,14 @@
           <argument>onKernelRequest</argument>
         </argument>
         <argument>250</argument>
+      </call>
+      <call method="addListener">
+        <argument>kernel.response</argument>
+        <argument type="collection">
+          <argument type="service" id="nelmio_cors.cors_listener"/>
+          <argument>onKernelResponse</argument>
+        </argument>
+        <argument>0</argument>
       </call>
       <call method="addListener">
         <argument>kernel.response</argument>
@@ -4634,8 +4640,9 @@
     </service>
     <service id="nelmio_cors.cors_listener" class="Nelmio\CorsBundle\EventListener\CorsListener">
       <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="250"/>
+      <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="0"/>
       <tag name="container.hot_path"/>
-      <argument type="service" id="debug.event_dispatcher"/>
+      <tag name="container.hot_path"/>
       <argument type="service" id="nelmio_cors.options_resolver"/>
     </service>
     <service id="nelmio_cors.options_resolver" class="Nelmio\CorsBundle\Options\Resolver" public="false">
