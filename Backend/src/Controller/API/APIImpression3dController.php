@@ -145,11 +145,14 @@ class APIImpression3dController extends AbstractController
             $Date = new DateTime($Datereg[0]);
             $Calendrier =  $entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$Date));
 
+            if(((bool)($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$Date)))) == False){
+                $response = JsonResponse::fromJsonString('{ "code": 404 }');
+                return $response;
+            }
+
             $Data2 = $this->getDoctrine()
-                ->getRepository(Impression3D::class)
-                ->findAllHeure($Calendrier,$Heure);
-
-
+                             ->getRepository(Impression3D::class)
+                             ->findAllHeure($Calendrier,$Heure);
 
             if($Data2 != []) {
                 $response = JsonResponse::fromJsonString('{ "code": 403 }');

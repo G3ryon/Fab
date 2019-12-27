@@ -23,12 +23,7 @@ class Impression3dFormType extends AbstractType
     {
         $builder
             ->add('Noma',TextType::class)
-            ->add('date',DateType::class,  [
-                                                                                                                  'attr' => [
-                                                                                                                      'min' => "2000-01-01"
-
-                                                                                                                  ]
-                                                                                                              ])
+            ->add('date',DateType::class)
             ->add('Nom',TextType::class,['attr'=>['label'=>"Nom du print"]])
             ->add('Temps', IntegerType::class, [
                                                                         'attr' => [
@@ -67,7 +62,18 @@ class Impression3dFormType extends AbstractType
 
                 // make it optional so you don't have to re-upload the PDF file
                 // everytime you edit the Product details
-                'required' => true])
+                'required' => true,
+                'constraints' => [
+                                    new File([
+                                        'maxSize' => '20000k',
+                                        'mimeTypes' => [
+                                            'text/x.gcode',
+                                            'text/plain',
+                                        ],
+                                        'mimeTypesMessage' => 'Please upload a valid Gcode file',
+                                    ])
+                                ],
+                              ])
 
 
             ->add('submit',SubmitType::class);

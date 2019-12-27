@@ -65,7 +65,7 @@ class __TwigTemplate_efc44cc570d215fc519909a1caffc1eb6a7236d5d2815dc21263fe07fbe
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
         // line 6
-        echo "
+        echo "    <h2>Affichage des impressions 3D</h2>
 
     <div>";
         // line 8
@@ -153,9 +153,10 @@ class __TwigTemplate_efc44cc570d215fc519909a1caffc1eb6a7236d5d2815dc21263fe07fbe
         }
         // line 44
         echo "    <div>
+        <h2>Formulaire d'ajout d'une impression3D.</h2>
         ";
-        // line 45
-        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["impression3dForm"]) || array_key_exists("impression3dForm", $context) ? $context["impression3dForm"] : (function () { throw new RuntimeError('Variable "impression3dForm" does not exist.', 45, $this->source); })()), 'form');
+        // line 46
+        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["impression3dForm"]) || array_key_exists("impression3dForm", $context) ? $context["impression3dForm"] : (function () { throw new RuntimeError('Variable "impression3dForm" does not exist.', 46, $this->source); })()), 'form');
         echo "
     </div>
 
@@ -180,7 +181,7 @@ class __TwigTemplate_efc44cc570d215fc519909a1caffc1eb6a7236d5d2815dc21263fe07fbe
 
     public function getDebugInfo()
     {
-        return array (  158 => 45,  155 => 44,  148 => 41,  145 => 40,  139 => 36,  127 => 32,  123 => 31,  119 => 30,  115 => 29,  111 => 28,  107 => 27,  103 => 26,  100 => 25,  96 => 24,  80 => 12,  78 => 11,  72 => 8,  68 => 6,  58 => 5,  35 => 1,);
+        return array (  159 => 46,  155 => 44,  148 => 41,  145 => 40,  139 => 36,  127 => 32,  123 => 31,  119 => 30,  115 => 29,  111 => 28,  107 => 27,  103 => 26,  100 => 25,  96 => 24,  80 => 12,  78 => 11,  72 => 8,  68 => 6,  58 => 5,  35 => 1,);
     }
 
     public function getSourceContext()
@@ -190,7 +191,7 @@ class __TwigTemplate_efc44cc570d215fc519909a1caffc1eb6a7236d5d2815dc21263fe07fbe
 
 
 {% block body %}
-
+    <h2>Affichage des impressions 3D</h2>
 
     <div>{{form(Day)}}</div>
 
@@ -229,6 +230,7 @@ class __TwigTemplate_efc44cc570d215fc519909a1caffc1eb6a7236d5d2815dc21263fe07fbe
         <h1>Il n'y a rien de programmé ce jour là</h1>
     {% endif %}
     <div>
+        <h2>Formulaire d'ajout d'une impression3D.</h2>
         {{ form(impression3dForm) }}
     </div>
 

@@ -107,6 +107,13 @@ class Impression3dController extends AbstractController
          $Get='date';
          $CalendrierID=$this->getCalendarId($form,$Get,$entityManager);
 
+         if($CalendrierID=="null"){
+
+                     $this->addFlash('warning', "l'ECAM n'est pas accesible ce jour là");
+                      return $this->redirectToRoute('impression3d');
+
+                  }
+
          $Data2 = $this->getDoctrine()
              ->getRepository(Impression3D::class)
              ->findAllHeure($CalendrierID,$heure);
