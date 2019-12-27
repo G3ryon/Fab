@@ -23,9 +23,19 @@ class Impression3dFormType extends AbstractType
     {
         $builder
             ->add('Noma',TextType::class)
-            ->add('date',DateType::class)
+            ->add('date',DateType::class,  [
+                                                                                                                  'attr' => [
+                                                                                                                      'min' => "2000-01-01"
+
+                                                                                                                  ]
+                                                                                                              ])
             ->add('Nom',TextType::class,['attr'=>['label'=>"Nom du print"]])
-            ->add('Temps',IntegerType::class)
+            ->add('Temps', IntegerType::class, [
+                                                                        'attr' => [
+                                                                            'min' => 0,
+                                                                            'max' => 14
+                                                                        ]
+                                                                    ])
             ->add('Matiere',ChoiceType::class,[
                 'choices' =>[
                     'PLA'=> 'PLA',
@@ -34,7 +44,11 @@ class Impression3dFormType extends AbstractType
                     'FLEX'=> 'FLEX'
                 ]
             ])
-            ->add('Prix',IntegerType::class)
+            ->add('Prix', IntegerType::class, [
+                            'attr' => [
+                                'min' => 0
+                            ]
+                        ])
             ->add('Heure',ChoiceType::class,[
                 'choices' =>[
                     '8h'=> 8,
@@ -55,15 +69,6 @@ class Impression3dFormType extends AbstractType
                 // everytime you edit the Product details
                 'required' => true])
 
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
-                /*'constraints' => [
-                    new File([
-                        'mimeTypes' => [
-                            'maxSize' => '10M'
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid file',
-                    ])]])*/
 
             ->add('submit',SubmitType::class);
 

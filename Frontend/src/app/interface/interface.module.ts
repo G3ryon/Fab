@@ -16,7 +16,7 @@ export interface PrintInfo {
   "Nom": string;
   "Temps": number;
   "Matiere": string;
-  "Prix": string;
+  "Prix": number;
   "Heure": number;
   "Utilisateur": utilisateur[];
 
@@ -31,7 +31,7 @@ export class Print{
   public Noma: number,
   public Date: string,
   public Nom: string,
-  public Temps: string,
+  public Temps: number,
   public Matiere: string,
   public Prix: number,
   public Heure: number,

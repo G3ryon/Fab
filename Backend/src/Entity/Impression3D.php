@@ -32,7 +32,7 @@ class Impression3D
     private $Matiere;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      */
     private $Prix;
 

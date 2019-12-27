@@ -15,12 +15,10 @@ export class PrintFormComponent implements OnInit {
   message;
   type;
   fileData: File = null;
-  previewUrl:any = null;
-  fileUploadProgress: string = null;
-  uploadedFilePath: string = null;
   materials = ["PLA","ABS","FLEX","PETG"];
   hours=["8h","10h","12h","14h","16h","18h"];
-  model = new Print(0,"","","","PLA",1,0,"");
+  longPrintHours = ["18h"];
+  model = new Print(0,"","",0,"PLA",1,0,"");
 
 
   myFilter = (d: Date): boolean => {
@@ -46,7 +44,7 @@ export class PrintFormComponent implements OnInit {
       if(res["code"] == 200){
         this.message='SUCCESS!!: ton print a bien été enregistré :D';
         this.type = "success";
-        this.model = new Print(16067,"","","","PLA",1,0,"");
+        this.model = new Print(16067,"","",0,"PLA",1,0,"");
       }
       else if(res["code"] == 403){
         this.message='ECHEC : Il y a deja un print à cette heure là!';

@@ -4,7 +4,9 @@
 
 {% block body %}
 
+
     <div>{{form(Day)}}</div>
+
 
     {% if Sub == 0 %}
         <h1>{{forma}}</h1>
@@ -32,9 +34,13 @@
 
         {% endfor %}
 
-    </table>
-    {% endif %}
+        </table>
 
+    {% endif %}
+    {% if Sub ==3 %}
+        <h1>{{forma}}</h1>
+        <h1>Il n'y a rien de programmé ce jour là</h1>
+    {% endif %}
     <div>
         {{ form(impression3dForm) }}
     </div>

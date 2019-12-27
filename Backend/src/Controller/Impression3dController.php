@@ -40,11 +40,15 @@ class Impression3dController extends AbstractController
     public function getCalendarId($form,$Get,$entityManager){
 
         $Date = $form->get($Get)->getData();
-        $IdCalendrier= ($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$Date)));
-        $CalendrierID=$IdCalendrier->getId('id');
+        if((bool)($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$Date)))){
+            $IdCalendrier= ($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$Date)));
+            $CalendrierID=$IdCalendrier->getId('id');
+        }
+        else{
+            $CalendrierID = "null";
 
+        }
         return $CalendrierID;
-
     }
 
     public function uploadFile($PrintFile)
@@ -69,19 +73,37 @@ class Impression3dController extends AbstractController
     public function dayDisplay($form1,$entityManager){
         //Getting the prints which occurs at the date choosen by the user
          global $Sub;
-         $Sub=0;
+         $Sub=3;
          $Get='Date';
          $CalendrierID=$this->getCalendarId($form1,$Get,$entityManager);
+         if($CalendrierID=="null"){
+
+            $this->addFlash('warning', "l'ECAM n'est pas accesible ce jour là");
+             return $this->redirectToRoute('impression3d');
+
+         }
 
          $Data = $this->getDoctrine()
              ->getRepository(Impression3D::class)
              ->findAllPrint($CalendrierID);
+
+        if((bool)($this->getDoctrine()
+                        ->getRepository(Impression3D::class)
+                        ->findAllPrint($CalendrierID))){
+            $Sub = 0;
+        }
+
         return $Data;
      }
 
      public function formSubmit($form,$impression3d,$entityManager){
         //Submiting the data filled by the user in the print form
          $heure = $form->get('Heure')->getData();
+         $temps = $form->get('Temps')->getData();
+         if($temps>2 and $heure != 18 ){
+             $this->addFlash('warning', "Votre impression est trop longue placez là un jour à 18h");
+             return $this->redirectToRoute('impression3d');
+         }
          $Get='date';
          $CalendrierID=$this->getCalendarId($form,$Get,$entityManager);
 
@@ -92,12 +114,14 @@ class Impression3dController extends AbstractController
          //let the form be submit only if there isn't other print at the same time
          if($Data2 == [])
          {
+            $formNoma = $form->get('Noma')->getData();
+            if((bool)$entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$formNoma))){
              //Date and Noma adding
              $entityManager = $this->getDoctrine()->getManager();
              $formDate = $form->get('date')->getData();
-             $formNoma = $form->get('Noma')->getData();
+
              $PrintFile = $form['PrintFile']->getData();
-             dump($PrintFile);
+
              //PrintFilename adding
              $newFilename= $this->uploadFile($PrintFile);
              $impression3d->setPrintFilename($newFilename);
@@ -114,6 +138,11 @@ class Impression3dController extends AbstractController
 
              $this->addFlash('success',"L'impression a bien été ajouté au calendrier");
              return $this->redirectToRoute('impression3d');
+            }
+            else{
+             $this->addFlash('warning', "Vous n'avez pas fait la formation pour pouvoir programmer une impression!");
+             return $this->redirectToRoute('impression3d');
+            }
          }
          else {
              $this->addFlash('warning', 'Il y a déjà une impression à cette heure là');
@@ -155,13 +184,15 @@ class Impression3dController extends AbstractController
             'Day'=>$form1->createView(),
             'Data'=>$Data,
             'forma'=>date_format($formDate,'d/M/y'),
-            'Sub'=>$Sub
+            'Sub'=>$Sub,
+
         ]);}
         else
         {return $this->render('impression3d/index.html.twig', [
                 'impression3dForm' => $form->createView(),
                 'Day'=>$form1->createView(),
-                'Sub'=>$Sub
+                'Sub'=>$Sub,
+
             ]);
         }
     }
@@ -181,12 +212,4 @@ class Impression3dController extends AbstractController
         return $this->file($file);
 
     }
-
-
-
-
-
-
-
 }
-

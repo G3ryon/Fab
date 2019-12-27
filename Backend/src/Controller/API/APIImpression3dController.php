@@ -149,14 +149,18 @@ class APIImpression3dController extends AbstractController
                 ->getRepository(Impression3D::class)
                 ->findAllHeure($Calendrier,$Heure);
 
+
+
             if($Data2 != []) {
                 $response = JsonResponse::fromJsonString('{ "code": 403 }');
                 return $response;
             }
             else
             {
+
                 $Noma= $this->query('Noma',$request);
                 if((bool)$entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$Noma))){
+
                     $impression3d = new Impression3D();
 
                     $Utilisateur =  $entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$Noma));
@@ -175,7 +179,7 @@ class APIImpression3dController extends AbstractController
                     $impression3d->setMatiere($Matiere);
 
                     $Prix = $this->query('Prix',$request);
-                    $impression3d->setPrix($Prix);
+                    $impression3d->setPrix((int)$Prix);
 
                     $impression3d->setHeure($Heure);
 
