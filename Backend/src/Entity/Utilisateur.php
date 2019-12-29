@@ -28,10 +28,16 @@ class Utilisateur
      */
     private $Prenom;
 
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Impression3D", mappedBy="Utilisateur")
      */
     private $Utilisateur;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $Formprint;
 
 
 
@@ -58,16 +64,17 @@ class Utilisateur
     }
 
     public function getPrenom(): ?string
-    {
-        return $this->Prenom;
-    }
+         {
+             return $this->Prenom;
+         }
 
     public function setPrenom(string $Prenom): self
     {
-        $this->Prenom = $Prenom;
+             $this->Prenom = $Prenom;
 
-        return $this;
+             return $this;
     }
+
 
 
     /**
@@ -104,6 +111,18 @@ class Utilisateur
     public function __toString()
     {
         return (string) $this->id;
+    }
+
+    public function getFormprint(): ?bool
+    {
+        return $this->Formprint;
+    }
+
+    public function setFormprint(bool $Formprint): self
+    {
+        $this->Formprint = $Formprint;
+
+        return $this;
     }
 
 }

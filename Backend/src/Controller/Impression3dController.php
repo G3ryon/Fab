@@ -40,6 +40,7 @@ class Impression3dController extends AbstractController
     public function getCalendarId($form,$Get,$entityManager){
 
         $Date = $form->get($Get)->getData();
+        //Looking if the Date is in the Database
         if((bool)($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$Date)))){
             $IdCalendrier= ($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$Date)));
             $CalendrierID=$IdCalendrier->getId('id');
@@ -54,7 +55,6 @@ class Impression3dController extends AbstractController
     public function uploadFile($PrintFile)
         {
             //Upload management
-            dump($PrintFile);
             $originalFilename = pathinfo($PrintFile->getClientOriginalName(), PATHINFO_FILENAME);
             // this is needed to safely include the file name as part of the URL
             $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
@@ -76,6 +76,7 @@ class Impression3dController extends AbstractController
          $Sub=3;
          $Get='Date';
          $CalendrierID=$this->getCalendarId($form1,$Get,$entityManager);
+
          if($CalendrierID=="null"){
 
             $this->addFlash('warning', "l'ECAM n'est pas accesible ce jour là");
@@ -86,7 +87,7 @@ class Impression3dController extends AbstractController
          $Data = $this->getDoctrine()
              ->getRepository(Impression3D::class)
              ->findAllPrint($CalendrierID);
-
+        //Looking if there are prints programmed
         if((bool)($this->getDoctrine()
                         ->getRepository(Impression3D::class)
                         ->findAllPrint($CalendrierID))){
@@ -100,6 +101,7 @@ class Impression3dController extends AbstractController
         //Submiting the data filled by the user in the print form
          $heure = $form->get('Heure')->getData();
          $temps = $form->get('Temps')->getData();
+
          if($temps>2 and $heure != 18 ){
              $this->addFlash('warning', "Votre impression est trop longue placez là un jour à 18h");
              return $this->redirectToRoute('impression3d');
@@ -108,10 +110,8 @@ class Impression3dController extends AbstractController
          $CalendrierID=$this->getCalendarId($form,$Get,$entityManager);
 
          if($CalendrierID=="null"){
-
                      $this->addFlash('warning', "l'ECAM n'est pas accesible ce jour là");
                       return $this->redirectToRoute('impression3d');
-
                   }
 
          $Data2 = $this->getDoctrine()
@@ -121,8 +121,12 @@ class Impression3dController extends AbstractController
          //let the form be submit only if there isn't other print at the same time
          if($Data2 == [])
          {
+            //Looking if the User did the formation to 3D print
             $formNoma = $form->get('Noma')->getData();
-            if((bool)$entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$formNoma))){
+            $boolformprint=$this->getDoctrine()
+                                ->getRepository(Utilisateur::class)
+                                ->findFormprint($formNoma);
+            if((bool)($entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$formNoma))) and $boolformprint[0]["Formprint"]){
              //Date and Noma adding
              $entityManager = $this->getDoctrine()->getManager();
              $formDate = $form->get('date')->getData();

@@ -13,7 +13,7 @@
 
   <mat-form-field >
     <label for="date"></label>
-    <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" placeholder="Choose a date"
+    <input matInput [min]="minDate" [max]="maxDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" placeholder="Choose a date"
            required [(ngModel)]="model.Date" name="date" id="date">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>

@@ -14,10 +14,16 @@ import {PrintInfo,utilisateur} from '../../Interface/Interface.module';
 
 export class DayPrintFormComponent implements OnInit {
 
+
   Data : PrintInfo[];
   date: MatDatepickerInputEvent<Date>;
   events: string[] = [];
+  minDate = new Date(2019, 0, 1);
+  maxDate = new Date(2021, 0, 1);
   ddl;
+  message;
+  type;
+
 
   myFilter = (d: Date): boolean => {
     const day = d.getDay();
@@ -30,12 +36,19 @@ export class DayPrintFormComponent implements OnInit {
   }
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-
+    //Handling the request to the API to get the print data and the fact if the response is empty
     // @ts-ignore
-    this.api.getPrintScheduleJson(formatDate(event.value,'yyyy-MM-dd',"en-US")).subscribe((data: PrintInfo[]) => this.Data = data);
-
+    this.api.getPrintScheduleJson(formatDate(event.value,'yyyy-MM-dd',"en-US")).subscribe((data: PrintInfo[]) =>
+    {if(data.length != 0)
+      {this.Data = data;console.log(data);
+        this.message='';
+        this.type = "";}
+    else
+      {delete this.Data;
+        this.message='Il n\'y a pas d\'impression programmée';
+        this.type = "info";}
+    });
   }
-
 
   constructor(private api: ApiService) { }
 

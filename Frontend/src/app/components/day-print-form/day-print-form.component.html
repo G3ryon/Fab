@@ -1,6 +1,11 @@
 <div>
+
+  <ngb-alert *ngIf="message" type="{{type}}" [dismissible]="true">
+    {{message}}
+  </ngb-alert>
+
 <mat-form-field >
-  <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" placeholder="Choose a date" (dateInput)="addEvent('input', $event)" >
+  <input matInput [min]="minDate" [max]="maxDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker" placeholder="Choose a date" (dateInput)="addEvent('input', $event)" >
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>

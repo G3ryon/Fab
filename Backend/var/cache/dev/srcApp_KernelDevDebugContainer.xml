@@ -366,6 +366,13 @@
         <argument type="service" id=".service_locator.CDOTD6..App\Controller\API\APIActivitesController"/>
       </call>
     </service>
+    <service id="App\Controller\API\APIAdminController" class="App\Controller\API\APIAdminController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.CDOTD6..App\Controller\API\APIAdminController"/>
+      </call>
+    </service>
     <service id="App\Controller\API\APICalendrierController" class="App\Controller\API\APICalendrierController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -422,6 +429,13 @@
         <argument type="service" id=".service_locator.CDOTD6..App\Controller\ActivitesController"/>
       </call>
     </service>
+    <service id="App\Controller\AdminController" class="App\Controller\AdminController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.CDOTD6..App\Controller\AdminController"/>
+      </call>
+    </service>
     <service id="App\Controller\CalendrierController" class="App\Controller\CalendrierController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -472,6 +486,9 @@
       </call>
     </service>
     <service id="App\Form\DayType" class="App\Form\DayType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
+    <service id="App\Form\Formation3DType" class="App\Form\Formation3DType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
     <service id="App\Form\Impression3dFormType" class="App\Form\Impression3dFormType" autowire="true" autoconfigure="true">
@@ -824,6 +841,7 @@
       </argument>
       <argument type="collection">
         <argument>App\Form\DayType</argument>
+        <argument>App\Form\Formation3DType</argument>
         <argument>App\Form\Impression3dFormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\ChoiceType</argument>
@@ -1093,7 +1111,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension" public="false">
-      <argument type="service" id=".service_locator.ClmJim4"/>
+      <argument type="service" id=".service_locator.51JmIfr"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -2273,14 +2291,6 @@
       </call>
       <call method="addListener">
         <argument>kernel.request</argument>
-        <argument type="collection">
-          <argument type="service" id="debug.debug_handlers_listener"/>
-          <argument>configure</argument>
-        </argument>
-        <argument>2048</argument>
-      </call>
-      <call method="addListener">
-        <argument>console.command</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
           <argument>configure</argument>
@@ -4666,6 +4676,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\APIActivitesController" class="App\Controller\API\APIActivitesController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\APIActivitesController" class="App\Controller\API\APIActivitesController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\API\APIActivitesController" class="App\Controller\API\APIActivitesController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\APIAdminController" class="App\Controller\API\APIAdminController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\APIAdminController" class="App\Controller\API\APIAdminController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\API\APIAdminController" class="App\Controller\API\APIAdminController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\APICalendrierController" class="App\Controller\API\APICalendrierController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\APICalendrierController" class="App\Controller\API\APICalendrierController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\API\APICalendrierController" class="App\Controller\API\APICalendrierController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -4690,6 +4703,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ActivitesController" class="App\Controller\ActivitesController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ActivitesController" class="App\Controller\ActivitesController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\ActivitesController" class="App\Controller\ActivitesController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\AdminController" class="App\Controller\AdminController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\AdminController" class="App\Controller\AdminController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\AdminController" class="App\Controller\AdminController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\CalendrierController" class="App\Controller\CalendrierController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\CalendrierController" class="App\Controller\CalendrierController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\CalendrierController" class="App\Controller\CalendrierController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -4713,6 +4729,8 @@
     <service id=".abstract.instanceof.App\Controller\Impression3dController" class="App\Controller\Impression3dController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\DayType" class="App\Form\DayType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\DayType" class="App\Form\DayType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\Formation3DType" class="App\Form\Formation3DType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\Formation3DType" class="App\Form\Formation3DType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\Impression3dFormType" class="App\Form\Impression3dFormType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\Impression3dFormType" class="App\Form\Impression3dFormType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CalendrierRepository" class="App\Repository\CalendrierRepository" autowire="true" abstract="true"/>
@@ -4946,10 +4964,11 @@
       <argument type="service" id="debug.argument_resolver.not_tagged_controller.inner"/>
       <argument type="service" id="debug.stopwatch"/>
     </service>
-    <service id=".service_locator.ClmJim4" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.51JmIfr" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Form\DayType" type="service" id="App\Form\DayType"/>
+        <argument key="App\Form\Formation3DType" type="service" id="App\Form\Formation3DType"/>
         <argument key="App\Form\Impression3dFormType" type="service" id="App\Form\Impression3dFormType"/>
         <argument key="Symfony\Bridge\Doctrine\Form\Type\EntityType" type="service" id="form.type.entity"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ChoiceType" type="service" id="form.type.choice"/>
@@ -5173,6 +5192,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.CDOTD6." method="withContext"/>
     </service>
+    <service id=".service_locator.CDOTD6..App\Controller\API\APIAdminController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator_context" id="App\Controller\API\APIAdminController"/>
+      <argument>App\Controller\API\APIAdminController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.CDOTD6." method="withContext"/>
+    </service>
     <service id=".service_locator.CDOTD6..App\Controller\API\APICalendrierController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator_context" id="App\Controller\API\APICalendrierController"/>
       <argument>App\Controller\API\APICalendrierController</argument>
@@ -5218,6 +5243,12 @@
     <service id=".service_locator.CDOTD6..App\Controller\ActivitesController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator_context" id="App\Controller\ActivitesController"/>
       <argument>App\Controller\ActivitesController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.CDOTD6." method="withContext"/>
+    </service>
+    <service id=".service_locator.CDOTD6..App\Controller\AdminController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator_context" id="App\Controller\AdminController"/>
+      <argument>App\Controller\AdminController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.CDOTD6." method="withContext"/>
     </service>

@@ -22,16 +22,18 @@ export class ApiService {
     //otherwise the server returned error code status
     return Observable.throw( error );
   }
-
+  //getting the schedule of prints of the chosen day
   getPrintScheduleJson(date){
     let url = "http://127.0.0.1:8000/api/Date";
     let params = new HttpParams().set("date",date);
     return this.http.get<PrintInfo>(url,{params:params}).pipe(catchError(this.handleError));
   };
+  //Handling the request to return the file to be downloaded
   downloadGcode(gcodefile){
     let url = "http://127.0.0.1:8000/api/Download?ddl="+gcodefile;
     return window.open(url);
   }
+  //Handling the request to send the data to the database
   newPrintSubmit(printInfo){
     let url = "http://127.0.0.1:8000/api/Print";
     let params = new HttpParams()
@@ -45,10 +47,20 @@ export class ApiService {
 
     return this.http.get<PrintForm>(url,{params:params}).pipe(catchError(this.handleError));
   }
+  //Handling the request to upload the file to the server
   uploadFIle(filedata){
     let url = "https://127.0.0.1:8000/api/up";
     return this.http.post(url, filedata).pipe(catchError(this.handleError));
 
+  }
+  //Handling the request to update the formation status of a user
+  updateFormation(updateInfo){
+    let url = "http://127.0.0.1:8000/api/formationbool";
+    let params = new HttpParams()
+      .set("Noma",updateInfo.Noma)
+      .set("bool",updateInfo.bool);
+
+    return this.http.get<PrintForm>(url,{params:params}).pipe(catchError(this.handleError));
   }
 
 

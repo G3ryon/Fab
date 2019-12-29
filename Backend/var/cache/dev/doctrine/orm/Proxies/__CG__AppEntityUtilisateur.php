@@ -64,10 +64,10 @@ class Utilisateur extends \App\Entity\Utilisateur implements \Doctrine\ORM\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Nom', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Prenom', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Utilisateur'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Nom', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Prenom', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Utilisateur', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Formprint'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Nom', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Prenom', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Utilisateur'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Nom', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Prenom', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Utilisateur', '' . "\0" . 'App\\Entity\\Utilisateur' . "\0" . 'Formprint'];
     }
 
     /**
@@ -274,6 +274,28 @@ class Utilisateur extends \App\Entity\Utilisateur implements \Doctrine\ORM\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
 
         return parent::__toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFormprint(): ?bool
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFormprint', []);
+
+        return parent::getFormprint();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFormprint(bool $Formprint): \App\Entity\Utilisateur
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFormprint', [$Formprint]);
+
+        return parent::setFormprint($Formprint);
     }
 
 }

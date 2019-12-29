@@ -36,6 +36,22 @@ class UtilisateurRepository extends ServiceEntityRepository
     }
     */
 
+ /**
+     * @param $noma
+     * @return Utilisateur[]
+     */
+    public function findFormprint($noma)
+    {
+
+        return $this->createQueryBuilder('user')
+            ->select('user.Formprint')
+            ->andWhere('user.id = '.strval($noma))
+            ->getQuery()
+            ->getResult();
+
+        // to get just one result:
+        // $product = $qb->setMaxResults(1)->getOneOrNullResult();
+    }
     /*
     public function findOneBySomeField($value): ?Utilisateur
     {

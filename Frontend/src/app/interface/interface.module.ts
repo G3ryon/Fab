@@ -37,10 +37,16 @@ export class Print{
   public Heure: number,
   public PrintFilename: string
 
+  ) {}
+
+}
+export class Formationbool {
+  constructor(
+    public Noma: number,
+    public bool: boolean,
+
   ) {
-
   }
-
 }
 export interface uploadfile{
   "filename": string;

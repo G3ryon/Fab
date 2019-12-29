@@ -29,6 +29,7 @@ import {MatButtonModule} from "@angular/material/button";
 import { PrintFormComponent } from './components/print-form/print-form.component';
 import {FormsModule} from "@angular/forms";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { AdminComponent } from './admin/admin.component';
 
 const appRoutes: Routes = [
   {path: 'Impression3D', component: Impression3DComponent},
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
   {path: 'Calendrier', component: CalendrierComponent},
   {path: 'Contact', component: ContactComponent},
   {path: 'Equipe', component: EquipeComponent},
-  {path: 'Formations', component: FormationsComponent}
+  {path: 'Formations', component: FormationsComponent},
+  {path: 'Admin', component: AdminComponent}
 ];
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ const appRoutes: Routes = [
     MapComponent,
     DayPrintFormComponent,
     PrintFormComponent,
+    AdminComponent,
 
   ],
   imports: [

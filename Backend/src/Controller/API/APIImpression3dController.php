@@ -33,6 +33,8 @@ use FOS\RestBundle\Controller\Annotations as Rest;
  */
 class APIImpression3dController extends AbstractController
 {
+
+
     public function getMatricule()
     {
         $repository = $this->getDoctrine()->getRepository(Utilisateur::class);
@@ -49,6 +51,7 @@ class APIImpression3dController extends AbstractController
      */
     public function DateDisplay(Request $request)
     {
+        //Get from the request the Date info and look into the database
         $Date = $request->query->get('date');
         $em = $this->getDoctrine()->getManager();
         $formDates = new DateTime($Date);
@@ -59,6 +62,7 @@ class APIImpression3dController extends AbstractController
               ->getRepository(Impression3D::class)
               ->findAllPrint($CalendID);
 
+        //Initialize the json response to send back with the content needed
         $products = $Data;
         $encoders = array( new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
@@ -68,7 +72,7 @@ class APIImpression3dController extends AbstractController
                             return $object->getId();
                         },
             ObjectNormalizer::CIRCULAR_REFERENCE_LIMIT =>0,
-            AbstractNormalizer::IGNORED_ATTRIBUTES =>["utilisateur","Calendrier","date","Noma",'__cloner__','__initializer__','__isInitialized__'],
+            AbstractNormalizer::IGNORED_ATTRIBUTES =>["utilisateur","Calendrier","date","Formprint","Noma",'__cloner__','__initializer__','__isInitialized__'],
             ObjectNormalizer::ENABLE_MAX_DEPTH => true,
             DateTimeNormalizer::FORMAT_KEY => 'Y/m/d H:i'
                     ];
@@ -88,9 +92,10 @@ class APIImpression3dController extends AbstractController
     */
     public function fileAction(Request $request)
     {
+        //Getting the file from the server
         $Ddl = $request->query->get('ddl');
         $path = 'Gcode_directory/'.$Ddl ;
-        // load the file from the filesystem
+        // load the file from the filesystem and send it to the client
         $file = new File($path);
 
         return $this->file($file);
@@ -109,6 +114,7 @@ class APIImpression3dController extends AbstractController
      */
     public function uploadfile(Request $request)
     {
+        //Handling the file to be unique and safe to find back
         $file = $request->files->get('File');
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
@@ -138,21 +144,24 @@ class APIImpression3dController extends AbstractController
         public function insertNewPrint(Request $request)
         {
             $entityManager = $this->getDoctrine()->getManager();
-            //looking if there is already a print at this time
+
             $Heure = $this->query('Heure',$request);
             $DateBrut = $this->query('Date',$request);
             preg_match('/[0-9]{4}(-[0-9]{2}){2}/', $DateBrut, $Datereg);
             $Date = new DateTime($Datereg[0]);
             $Calendrier =  $entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$Date));
 
+            //Looking if the Date is in the Database
             if(((bool)($entityManager->getRepository('App:Calendrier')->findOneBy(array('Date'=>$Date)))) == False){
                 $response = JsonResponse::fromJsonString('{ "code": 404 }');
                 return $response;
             }
 
+            //Looking if there is already a print at this time
             $Data2 = $this->getDoctrine()
                              ->getRepository(Impression3D::class)
                              ->findAllHeure($Calendrier,$Heure);
+
 
             if($Data2 != []) {
                 $response = JsonResponse::fromJsonString('{ "code": 403 }');
@@ -160,9 +169,14 @@ class APIImpression3dController extends AbstractController
             }
             else
             {
-
+                //Looking if the User did the formation to 3D print
                 $Noma= $this->query('Noma',$request);
-                if((bool)$entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$Noma))){
+                $boolformprint=$this->getDoctrine()
+                                    ->getRepository(Utilisateur::class)
+                                    ->findFormprint($Noma);
+
+                if((bool)($entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$Noma))) and $boolformprint[0]["Formprint"])
+                {
 
                     $impression3d = new Impression3D();
 

@@ -17,6 +17,7 @@ return [
             [['_route' => 'api_activites', '_controller' => 'App\\Controller\\API\\APIActivitesController::index'], null, null, null, false, false, null],
             [['_route' => 'activites', '_controller' => 'App\\Controller\\ActivitesController::index'], null, null, null, false, false, null],
         ],
+        '/api/formationbool' => [[['_route' => 'api_api_formbool', '_controller' => 'App\\Controller\\API\\APIAdminController::index'], null, ['POST' => 3, 'OPTIONS' => 1, 'GET' => 2, 'HEAD' => 4], null, false, false, null]],
         '/calendrier' => [
             [['_route' => 'api_calendrier', '_controller' => 'App\\Controller\\API\\APICalendrierController::index'], null, null, null, false, false, null],
             [['_route' => 'calendrier', '_controller' => 'App\\Controller\\CalendrierController::index'], null, null, null, false, false, null],
@@ -45,6 +46,7 @@ return [
         '/api/Download' => [[['_route' => 'api_api_ddl', '_controller' => 'App\\Controller\\API\\APIImpression3dController::fileAction'], null, ['POST' => 3, 'OPTIONS' => 1, 'GET' => 5, 'HEAD' => 4], null, false, false, null]],
         '/api/up' => [[['_route' => 'api_api_upload', '_controller' => 'App\\Controller\\API\\APIImpression3dController::uploadfile'], null, ['POST' => 3, 'OPTIONS' => 1, 'GET' => 5, 'HEAD' => 4], null, false, false, null]],
         '/api/Print' => [[['_route' => 'api_api_print', '_controller' => 'App\\Controller\\API\\APIImpression3dController::insertNewPrint'], null, ['POST' => 3, 'OPTIONS' => 1, 'GET' => 5, 'HEAD' => 4], null, false, false, null]],
+        '/admin' => [[['_route' => 'admin', '_controller' => 'App\\Controller\\AdminController::index'], null, null, null, false, false, null]],
         '/impression3d' => [[['_route' => 'impression3d', '_controller' => 'App\\Controller\\Impression3dController::index'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
