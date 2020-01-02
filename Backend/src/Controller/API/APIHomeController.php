@@ -10,6 +10,10 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+/**
+ *API Home Controller
+ *@Route("/api", name="api_", methods={"POST","OPTIONS","GET"})
+ */
 class APIHomeController extends AbstractController
 {
     /**
@@ -17,6 +21,5 @@ class APIHomeController extends AbstractController
      */
     public function index()
     {
-        return $this->render('home/index.html.twig');
     }
 }

@@ -10,13 +10,15 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+/**
+ *API galerie Controller
+ *@Route("/api", name="api_", methods={"POST","OPTIONS","GET"})
+ */
 class APIGalerieController extends AbstractController
 {
     /**
      * @Route("/galerie", name="api_galerie")
      */
     public function index()
-    {
-        return $this->render('galerie/index.html.twig');
-    }
+    {    }
 }

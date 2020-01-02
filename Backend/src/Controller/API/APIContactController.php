@@ -10,13 +10,15 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+/**
+ *API Contact Controller
+ *@Route("/api", name="api_", methods={"POST","OPTIONS","GET"})
+ */
 class APIContactController extends AbstractController
 {
     /**
      * @Route("/contact", name="api_contact")
      */
     public function index()
-    {
-        return $this->render('contact/index.html.twig');
-    }
+    {    }
 }

@@ -27,6 +27,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class Impression3dController extends AbstractController
 {
+    //variable to change the display to the correct flow of data
     static $Sub;
 
     public function getMatricule()
@@ -47,7 +48,6 @@ class Impression3dController extends AbstractController
         }
         else{
             $CalendrierID = "null";
-
         }
         return $CalendrierID;
     }

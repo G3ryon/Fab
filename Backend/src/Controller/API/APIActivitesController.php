@@ -10,22 +10,15 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+/**
+ *API Activites Controller
+ *@Route("/api", name="api_", methods={"POST","OPTIONS","GET"})
+ */
 class APIActivitesController extends AbstractController
 {
     /**
      * @Route("/activites", name="api_activites")
      */
     public function index()
-    {
-        /* $encoders = array ( new JsonEncoder());
-         $normalizers = array (new ObjectNormalizer());
-         $serializer = new Serializer ($normalizers , $encoders);
-         $em = $this->getDoctrine()->getManager();
-         $products = $em->getRepository('App:Product')->findAll();
-         $jsonContent = $serializer->serialize($products, 'json');
-         $response = new JsonResponse();
-         $response->setContent($jsonContent);
-         return $response;*/
-        return $this->render('activites/index.html.twig');
-    }
+    {    }
 }

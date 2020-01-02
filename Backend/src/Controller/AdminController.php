@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminController extends AbstractController
 {
 
+    //Handling the update of the formation in the database for a specific user
     public function updateFormation($form,$entityManager,$formNoma)
     {
-
         $formBool = $form->get('Formprint')->getData();
         $user = $entityManager->getRepository(Utilisateur::class)->find($formNoma);
         $user->setFormprint($formBool);
@@ -30,6 +30,7 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
         $entityManager = $this->getDoctrine()->getManager();
         $formNoma = $form->get('noma')->getData();
+        //check if the user exist in the database
         if((bool)($entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$formNoma))))
         {
         $this->updateFormation($form,$entityManager,$formNoma);

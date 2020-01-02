@@ -10,13 +10,15 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+/**
+ *API Calendrier Controller
+ *@Route("/api", name="api_", methods={"POST","OPTIONS","GET"})
+ */
 class APICalendrierController extends AbstractController
 {
     /**
      * @Route("/calendrier", name="api_calendrier")
      */
     public function index()
-    {
-        return $this->render('calendrier/index.html.twig');
-    }
+    {    }
 }

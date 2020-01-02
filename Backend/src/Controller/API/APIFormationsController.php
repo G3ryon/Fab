@@ -10,13 +10,15 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+/**
+ *API Formation Controller
+ *@Route("/api", name="api_", methods={"POST","OPTIONS","GET"})
+ */
 class APIFormationsController extends AbstractController
 {
     /**
      * @Route("/formations", name="api_formations")
      */
     public function index()
-    {
-        return $this->render('formations/index.html.twig');
-    }
+    {    }
 }

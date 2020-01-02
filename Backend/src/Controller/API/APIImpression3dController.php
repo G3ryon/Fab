@@ -28,7 +28,7 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
 /**
- *Impression3D Controller
+ *API Impression3D Controller
  *@Route("/api", name="api_", methods={"POST","OPTIONS","GET"})
  */
 class APIImpression3dController extends AbstractController
@@ -45,7 +45,7 @@ class APIImpression3dController extends AbstractController
 
     /**
      * Date displayer api
-     * @Route("/Date", name="api_date", methods={"POST","HEAD"})
+     * @Route("/Date", name="api_date", methods={"POST","HEAD","GET"})
      * @param Request $request
      * @return Response
      */
@@ -86,7 +86,7 @@ class APIImpression3dController extends AbstractController
 
 
     /**
-    * @Route("/Download", name="api_ddl", methods={"POST","HEAD","GET"})
+    * @Route("/Download", name="api_ddl", methods={"POST","HEAD"})
     * @param Request $request
     *
     */
@@ -107,7 +107,7 @@ class APIImpression3dController extends AbstractController
     }
 
     /**
-     * @Route("/up", name="api_upload", methods={"POST","HEAD","GET"})
+     * @Route("/up", name="api_upload", methods={"POST","HEAD"})
      * @param Request $request
      *
      *
@@ -135,7 +135,7 @@ class APIImpression3dController extends AbstractController
     }
 
     /**
-     * @Route("/Print", name="api_print", methods={"POST","HEAD","GET"})
+     * @Route("/Print", name="api_print", methods={"POST","HEAD"})
      * @param Request $request
      *
      * @return JsonResponse
