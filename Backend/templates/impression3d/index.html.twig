@@ -19,6 +19,7 @@
         <th>Prix</th>
         <th>Heure de lancement</th>
         <th>Fichier</th>
+        <th>Supprimer</th>
     </tr>
 
         {% for infos in Data %}
@@ -30,6 +31,7 @@
             <td>{{ infos.Prix }}</td>
             <td>{{ infos.Heure }}</td>
             <td><a href="{{ path('ddl',{ddl:infos.PrintFilename }) }}"> {{ infos.PrintFilename }}</a></td>
+            <td><a href="{{ path('deletePrint',{print:infos.id }) }}"> Supprimer</a></td>
         </tr>
 
         {% endfor %}

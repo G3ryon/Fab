@@ -70,6 +70,22 @@ class Impression3dController extends AbstractController
             return $newFilename;
         }
 
+        /**
+         * @Route("/DeletePrint/{print}", name="deletePrint", methods={"GET"})
+         *
+         */
+    public function DeletePrint(string $print){
+         //delete the print selected
+         $entityManager = $this->getDoctrine()->getManager();
+         $user = $entityManager->getRepository(Impression3D::class)->find($print);
+         $entityManager->remove($user);
+         $entityManager->flush();
+         //send a confirmation message
+         $this->addFlash('success', "L'impression a été supprimer du calendrier");
+         return $this->redirectToRoute('impression3d');
+
+    }
+
     public function dayDisplay($form1,$entityManager){
         //Getting the prints which occurs at the date choosen by the user
          global $Sub;
