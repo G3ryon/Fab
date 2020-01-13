@@ -44,6 +44,25 @@ class APIImpression3dController extends AbstractController
     }
 
     /**
+    * @Route("/Delete", name="api_delete", methods={"POST","HEAD"})
+    * @param Request $request
+    *
+    */
+    public function delete(Request $request)
+    {
+        //Getting the id from the request
+        $print = $request->query->get('id');
+        $entityManager = $this->getDoctrine()->getManager();
+        //Getting from the database the data to delete
+        $user = $entityManager->getRepository(Impression3D::class)->find($print);
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        $response = JsonResponse::fromJsonString('{ "code": 200 }');
+        return $response;
+    }
+
+    /**
      * Date displayer api
      * @Route("/Date", name="api_date", methods={"POST","HEAD","GET"})
      * @param Request $request

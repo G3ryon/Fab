@@ -62,6 +62,14 @@ export class ApiService {
 
     return this.http.get<PrintForm>(url,{params:params}).pipe(catchError(this.handleError));
   }
+  //Handling the request to delete a print in the database
+  deleteprint(id){
+    let url = "http://127.0.0.1:8000/api/Delete";
+    let params = new HttpParams()
+      .set("id",id);
+
+    return this.http.get(url,{params:params}).pipe(catchError(this.handleError));
+  }
 
 
 }

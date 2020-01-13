@@ -30,9 +30,15 @@ export class DayPrintFormComponent implements OnInit {
     // Prevent Saturday and Sunday from being selected.
     return day !== 0 && day !== 6;
   };
+
   download(ddl: string){
     this.api.downloadGcode(ddl);
+  }
 
+  delete(id: number){
+    this.api.deleteprint(id).subscribe(data =>
+    {this.message="L'impression a été supprimé";
+    this.type = "success";})
   }
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {

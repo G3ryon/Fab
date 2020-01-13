@@ -31,12 +31,19 @@ class APIAdminController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $formNoma = $this->query('Noma',$request);
-        $formBool = $this->query('Bool',$request);
-        dump($formBool);
+        $formBool = $this->query('bool',$request);
+
         if((bool)($entityManager->getRepository('App:Utilisateur')->findOneBy(array('id'=>$formNoma))))
         {
         $user = $entityManager->getRepository(Utilisateur::class)->find($formNoma);
-        $user->setFormprint((bool)$formBool);
+
+        if($formBool=="false")
+        {
+        $user->setFormprint(0);
+        }
+        else{
+        $user->setFormprint(1);
+        }
         $entityManager->flush();
 
         $response = JsonResponse::fromJsonString('{ "code": 200 }');

@@ -28,6 +28,8 @@ class AdminController extends AbstractController
         $Formation = new Utilisateur();
         $form = $this->createForm(Formation3DType::Class, $Formation);
         $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
         $entityManager = $this->getDoctrine()->getManager();
         $formNoma = $form->get('noma')->getData();
         //check if the user exist in the database
@@ -40,7 +42,7 @@ class AdminController extends AbstractController
         {
         $this->addFlash('warning', "Echec");
         }
-
+        }
         return $this->render('admin/index.html.twig', [
             'Formation3D'=>$form->createView(),
         ]);

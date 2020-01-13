@@ -9,8 +9,8 @@ import {Formationbool, Print} from '../Interface/Interface.module';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  message;
-  type;
+  message = '';
+  type ='';
   model = new Formationbool(0,false) ;
   constructor(private api: ApiService) { }
 

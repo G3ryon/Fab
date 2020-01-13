@@ -20,6 +20,7 @@
       <th>Prix</th>
       <th>Heure de lancement</th>
       <th>Fichier</th>
+      <th>Suppression</th>
     </tr>
     <tr *ngFor="let print of Data">
       <td>{{ print.Utilisateur["id"]}}</td>
@@ -29,6 +30,7 @@
       <td>{{ print.Prix }}</td>
       <td>{{ print.Heure }}</td>
       <td> <button mat-stroked-button (click)="download(print.PrintFilename)" >Télécharger le fichier</button></td>
+      <td> <button mat-stroked-button (click)="delete(print.id)" >Supprimer</button></td>
     </tr>
 
   </table>
